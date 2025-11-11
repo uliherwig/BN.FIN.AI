@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from app.domain.models.enums import SideEnum, IndicatorEnum
 
-class EmaModel(BaseModel):
-    EMA_short: int
-    EMA_long: int
+
+class IndicatorModel(BaseModel):
+    strategyType: IndicatorEnum
+    params: str

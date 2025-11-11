@@ -59,7 +59,7 @@ class BreakoutIndicator(BaseIndicator):
         df['volatility_filter'] = df['atr'] > df['atr'].rolling(20).mean()  # Hohe Volatilität
         
         # Erstelle Handelssignale
-        signal_col_id = f"{StrategyLibEnum.BREAKOUT.name.lower()}_signal"
+        signal_col_id = f"{IndicatorEnum.BREAKOUT.name.lower()}_signal"
         
         df[signal_col_id] = SignalEnum.HOLD.value
         

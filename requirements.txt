@@ -3,7 +3,6 @@ uvicorn>=0.15.0
 python-multipart
 python-jose[cryptography]
 passlib[bcrypt]
-aiokafka
 pydantic
 redis
 aioredis
@@ -11,14 +10,15 @@ asyncio
 celery
 firebase_admin
 eventlet
-uvicorn[standard]
 pandas
 tensorflow
 numpy
 scikit-learn
 requests
-TA-Lib
 lightgbm
 xgboost
 scipy
-yfinfance
+yfinance
+Ta-lib
+optuna
+

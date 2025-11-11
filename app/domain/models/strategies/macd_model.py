@@ -2,10 +2,10 @@ from decimal import Decimal
 from uuid import UUID
 from pydantic import BaseModel
 from datetime import datetime
-from app.domain.models.enums import SideEnum, StrategyLibEnum
+from app.domain.models.enums import SideEnum, IndicatorEnum
 
 class MacdModel(BaseModel):
 
-    fast: int
-    slow: int
-    signal: int
+    MACD_fast: int
+    MACD_slow: int
+    MACD_signal: int

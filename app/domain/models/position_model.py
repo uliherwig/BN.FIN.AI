@@ -3,13 +3,13 @@ from decimal import Decimal
 from uuid import UUID
 from pydantic import BaseModel
 from datetime import datetime
-from app.domain.models.enums import SideEnum, StrategyLibEnum
+from app.domain.models.enums import SideEnum, IndicatorEnum
 
 
 class PositionModel(BaseModel):
     id: UUID
     strategy_id: UUID
-    strategy_type: StrategyLibEnum
+    strategy_type: IndicatorEnum
     execution_id: UUID 
     symbol: str
     quantity: Decimal
@@ -23,3 +23,5 @@ class PositionModel(BaseModel):
     stamp_closed: datetime
     close_signal: str
     strategy_params: str
+    confidence_up: Decimal = Decimal(0)
+    confidence_down: Decimal = Decimal(0)

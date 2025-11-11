@@ -32,9 +32,29 @@ class SignalEnum(Enum):
     BUY = 1
     SELL = -1
     HOLD = 0
+    
 
-class StrategyLibEnum(Enum):
+class IndicatorEnum(Enum):
+    NONE = "NONE"
+    SMA = 'SMA'  # Simple Moving Average
+    EMA = 'EMA'  # Exponential Moving Average
+    WMA = 'WMA'  # Weighted Moving Average
+    TEMA = 'TEMA'  # Triple Exponential Moving Average
+    MACD = 'MACD'  # Moving Average Convergence/Divergence
+    RSI = 'RSI'  # Relative Strength Index
+    DONCHIAN = 'DONCHIAN'  # Donchian Channel
+    BREAKOUT = 'BREAKOUT'  # Breakout Strategy
+    VOLA = 'VOLA'  # Volatility Strategy
+    ATR = 'ATR'  # Average True Range
+    BBANDS = 'BBANDS'  # Bollinger Bands
+    
+
+class TaLibEnum(Enum):
     NONE ="NONE"
+    
+    # custom Strategies
+    VOLUME = 'VOLUME'  # Volume Strategy
+    VOLA = 'VOLA'  # Volatility Strategy
     BREAKOUT = 'BREAKOUT'  # Breakout Strategy
     DONCHIAN = 'DONCHIAN'  # Donchian Channel
     # Volume Indicators

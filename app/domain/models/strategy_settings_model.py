@@ -2,11 +2,11 @@ from decimal import Decimal
 from uuid import UUID
 from pydantic import BaseModel, Field
 from datetime import datetime, timezone
-from app.domain.models.enums import SideEnum, StrategyLibEnum, StrategyLibEnum
+from app.domain.models.enums import SideEnum, IndicatorEnum, IndicatorEnum
 
 class StrategySettingsModel(BaseModel):
     id: UUID   
-    strategy_type: StrategyLibEnum
+    strategy_type: IndicatorEnum
     start_date: datetime = Field(default_factory=lambda: datetime(1, 1, 1, 0, 0, 0, tzinfo=timezone.utc), alias="StartDate")
     end_date: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), alias="EndDate")
     asset: str = Field(alias="Asset")

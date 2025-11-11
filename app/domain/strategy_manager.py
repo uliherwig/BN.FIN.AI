@@ -12,8 +12,6 @@ import lightgbm as lgb
 from scipy.stats import skew
 
 from app.domain import *
-from app.domain.models.strategies.donchian_model import DonchianModel
-from app.domain.models.strategies.macd_model import MacdModel
 from app.domain.operations.indicator_factory import IndicatorFactory
 from app.domain.position_manager import PositionManager
 
@@ -250,22 +248,22 @@ class StrategyManager:
         
         df = self.calculate_trades(df)
 
-        indicator = IndicatorFactory.create_indicator(StrategyLibEnum.SMA)
+        indicator = IndicatorFactory.create_indicator(IndicatorEnum.SMA)
         df = indicator.calculate_signals(df, '{"short_ma": 20, "long_ma": 70}')
 
-        indicator = IndicatorFactory.create_indicator(StrategyLibEnum.EMA)
+        indicator = IndicatorFactory.create_indicator(IndicatorEnum.EMA)
         df = indicator.calculate_signals(df, '{"short_ma": 20, "long_ma": 70}')
 
-        indicator = IndicatorFactory.create_indicator(StrategyLibEnum.WMA)
+        indicator = IndicatorFactory.create_indicator(IndicatorEnum.WMA)
         df = indicator.calculate_signals(df, '{"short_ma": 20, "long_ma": 70}')
 
-        indicator = IndicatorFactory.create_indicator(StrategyLibEnum.TEMA)
+        indicator = IndicatorFactory.create_indicator(IndicatorEnum.TEMA)
         df = indicator.calculate_signals(df, '{"short_ma": 20, "long_ma": 70}')
 
-        indicator = IndicatorFactory.create_indicator(StrategyLibEnum.RSI)
+        indicator = IndicatorFactory.create_indicator(IndicatorEnum.RSI)
         df = indicator.calculate_signals(df, '{"period": 14, "overbought": 70, "oversold": 30}')
         
-        indicator = IndicatorFactory.create_indicator(StrategyLibEnum.DONCHIAN)
+        indicator = IndicatorFactory.create_indicator(IndicatorEnum.DONCHIAN)
         df = indicator.calculate_signals(df, '{"window": 60}')
 
         # df['signal_sum'] = df[[col for col in df.columns if col.endswith('_signal')]].sum(axis=1)

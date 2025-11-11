@@ -5,4 +5,4 @@ from datetime import datetime
 from app.domain import *
 
 class DonchianModel(BaseModel):
-    window: int
+    DONCHIAN_window: int

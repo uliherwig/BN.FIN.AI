@@ -1,7 +1,7 @@
 from decimal import ROUND_HALF_UP, Decimal
 from uuid import UUID
 import uuid
-from app.domain.models.enums import SideEnum, StrategyLibEnum
+from app.domain.models.enums import SideEnum, IndicatorEnum
 from app.domain.models.position_model import PositionModel
 from datetime import datetime, timezone, time
 
@@ -12,13 +12,13 @@ class PositionManager:
         self.positions: dict[UUID,PositionModel] = {} 
         self.strategy_id: UUID = UUID(int=0)
         self.asset: str = ""
-        self.strategy_type: StrategyLibEnum = StrategyLibEnum.NONE
+        self.strategy_type: IndicatorEnum = IndicatorEnum.NONE
         self.strategy_params: str = ""
         self.quantity: Decimal = Decimal(0)   
         self.close_positions_eod: bool = True
 
     @classmethod
-    def create_with_test_params(cls, asset: str, quantity: Decimal, strategy_type: StrategyLibEnum, strategy_params: str = "", close_positions_eod: bool = True):
+    def create_with_test_params(cls, asset: str, quantity: Decimal, strategy_type: IndicatorEnum, strategy_params: str = "", close_positions_eod: bool = True):
         """Alternativer Constructor mit Strategy"""
         instance = cls()
         instance.positions = {}
@@ -35,7 +35,9 @@ class PositionManager:
                       price: Decimal,
                       tp:Decimal,
                       sl:Decimal,
-                      stamp : datetime
+                      stamp : datetime,
+                      confidence_up: Decimal = Decimal(0),
+                      confidence_down: Decimal = Decimal(0)
                       ):
         position_id = uuid.uuid4()
         position = PositionModel(
@@ -54,7 +56,9 @@ class PositionManager:
             stamp_opened= stamp,
             stamp_closed=datetime(1970, 1, 1, tzinfo=timezone.utc),
             close_signal="",
-            strategy_params=self.strategy_params
+            strategy_params=self.strategy_params,
+            confidence_up=confidence_up,
+            confidence_down=confidence_down
         )
         self.positions[position_id] = position
         return position_id
@@ -100,7 +104,7 @@ class PositionManager:
 
         return position_id
 
-    def close_position(self, position_id: UUID, price: Decimal, stamp: datetime):
+    def close_position(self, position_id: UUID, price: Decimal, stamp: datetime, close_signal: str = ""):
         position = self.get_position(position_id)
         if position:
             position.stamp_closed = stamp
@@ -110,6 +114,7 @@ class PositionManager:
             quantity = Decimal(str(position.quantity))
             side_multiplier = 1 if position.side == SideEnum.Buy else -1
             profit_loss = (price_close - price_open) * quantity * side_multiplier
+            position.close_signal = close_signal
        
             position.profit_loss = profit_loss.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         

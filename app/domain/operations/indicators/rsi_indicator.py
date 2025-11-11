@@ -14,49 +14,60 @@ class RsiIndicator(BaseIndicator):
 
     def calculate_signals(self, df: pd.DataFrame, param_str: str) -> pd.DataFrame:
         """
-        Berechnet den RSI-Indikator und generiert Kauf-/Verkaufssignale.
+        Calculates the RSI indicator and generates buy/sell signals.
 
         Args:
-            df: DataFrame mit 'C' (Close-Preisen).
+            df: DataFrame with 'C' (Close prices).
            
 
         Returns:
-            DataFrame mit zusätzlichen Spalten:
-            - 'rsi_<period>': RSI-Werte.
-            - 'rsi_signal': 1 (Kauf bei Überverkauft), -1 (Verkauf bei Überkauft), 0 (Hold).
+            DataFrame with additional columns:
+            - 'rsi_<period>': RSI values.
+            - 'rsi_signal': 1 (Buy when oversold), -1 (Sell when overbought), 0 (Hold).
         """
-        # Parameter parsen (Beispiel mit Pydantic-Modell, analog zu deinem MacdModel)
-        params = RsiModel.model_validate_json(param_str)  # Annahme: RsiModel ähnlich wie MacdModel
+        # Parse parameters (example with Pydantic model, similar to your MacdModel)
+        params = RsiModel.model_validate_json(param_str)  # Assumption: RsiModel similar to MacdModel
 
-        # RSI berechnen
-        rsi_col = f"rsi_{params.period}"
+        # Calculate RSI
+        rsi_col = f"rsi_{params.RSI_period}"
         df[rsi_col] = ta.RSI(
             df["C"].to_numpy(),
-            timeperiod=params.period
+            timeperiod=params.RSI_period
         )
 
-        # Signal-Spaltenname
-        signal_col_id = f"{StrategyLibEnum.RSI.name.lower()}_signal"
+        # Signal column name
+        signal_col_id = f"{IndicatorEnum.RSI.name.lower()}_signal"
 
-        # Signale generieren:
-        # 1 = Kauf (RSI unter 'oversold' und steigt)
-        # -1 = Verkauf (RSI über 'overbought' und fällt)
+        # Generate signals:
+        # 1 = Buy (RSI below 'oversold' and rising)
+        # -1 = Sell (RSI above 'overbought' and falling)
         df[signal_col_id] = 0  # Default: Hold
 
-        # Kaufsignal: RSI kreuzt von unten nach oben aus dem überverkauften Bereich
+        # Buy signal: RSI crosses from below to above the oversold area
         df.loc[
-            (df[rsi_col].shift(1) < params.oversold) &
-            (df[rsi_col] > params.oversold),
+            (df[rsi_col].shift(1) < params.RSI_oversold) &
+            (df[rsi_col] > params.RSI_oversold),
             signal_col_id
         ] = 1
 
-        # Verkaufssignal: RSI kreuzt von oben nach unten aus dem überkauften Bereich
+        # Sell signal: RSI crosses from above to below the overbought area
         df.loc[
-            (df[rsi_col].shift(1) > params.overbought) &
-            (df[rsi_col] < params.overbought),
+            (df[rsi_col].shift(1) > params.RSI_overbought) &
+            (df[rsi_col] < params.RSI_overbought),
             signal_col_id
         ] = -1
 
         return df
+    
+    def create_features(self, df: pd.DataFrame, param_str: str) -> pd.DataFrame:
+      
+        params = RsiModel.model_validate_json(param_str)        
+        df["RSI"] = ta.RSI(
+            df["Close"].to_numpy(),
+            timeperiod=params.RSI_period
+        )
 
+        df["RSI_diff"] = df["RSI"].diff().round(3)
+        df["RSI_slope"] = df["RSI_diff"].diff().round(3)
 
+        return df

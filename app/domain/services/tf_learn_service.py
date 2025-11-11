@@ -13,7 +13,7 @@ from app.infrastructure import alpaca_service
 import time
 import matplotlib.pyplot as plt
 from app.models.schemas import Quote, Position  
-from app.domain.data_utils import DataUtils
+from app.domain.operations.data_utils import DataUtils
 import os
 
 def learn_from_yahoo_data(ticker: str) -> None:
