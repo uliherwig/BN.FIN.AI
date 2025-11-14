@@ -62,14 +62,18 @@ class LgbTrainService:
         data["NEXT"] = next_return * 100
         data["NEXT_DAY"] = data['Close'].shift(-1)
         data["DIFF_NEXT_DAY"] = data['Close'].shift(-1) - data['Close']
-
-        data['target'] = np.where(
-            next_return > price_change_threshold, 1,
-            np.where(next_return < -price_change_threshold, -1, 0)
-        )
+        
+        if( model_type == 'classification'):
+            data['target'] = np.where(
+                next_return > price_change_threshold, 1,
+                np.where(next_return < -price_change_threshold, -1, 0)
+            )
+        elif( model_type == 'regression'):
+            data['target'] = next_return * 100
+            
         data = data.iloc[:-1]
         X = data[features]
-        y = data['NEXT']
+        y = data['target']
 
         final_model = self.walk_forward_validation(lgb_model, X, y, train_years=6, test_years=1, start_year=2010)
         
