@@ -4,7 +4,8 @@ from pydantic import BaseModel
 from datetime import datetime
 from app.domain.models.enums import SideEnum, IndicatorEnum
 
+class RocModel(BaseModel):
 
-class IndicatorModel(BaseModel):
-    strategyType: IndicatorEnum
-    params: str
+    ROC_period: int
+    ROC_threshold: Decimal =  Decimal('0.001')
+

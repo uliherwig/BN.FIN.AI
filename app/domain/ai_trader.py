@@ -59,7 +59,7 @@ class AITrader:
             'Volatility_20d',     # Volatility
             'Volume_Ratio',       # Volume
             'Close_Lag_1',        # Price history
-            'Returns_1d',          # Recent return
+            'ROC_1d',          # Recent return
             'EMA_diff',
         ]
 
@@ -407,7 +407,7 @@ class AITrader:
         features_path = f'ai_models/lgb_{self.ticker}_features.pkl'
         features = [
             'SMA_diff', 'RSI', 'MACD', 'ATR',
-            'Volatility_20d', 'Volume_Ratio', 'Close_Lag_1', 'Returns_1d',
+            'Volatility_20d', 'Volume_Ratio', 'Close_Lag_1', 'ROC_1d',
             'EMA_diff'  # <-- Add this line
         ]
         joblib.dump(features, features_path)

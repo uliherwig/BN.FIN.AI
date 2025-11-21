@@ -22,8 +22,7 @@ import time
 import matplotlib.pyplot as plt
 from app.models.schemas import Quote, Position
 from app.domain.operations.data_utils import DataUtils
-from app.domain.models.strategies.indicator_model import IndicatorModel
-from app.domain.services.optimize.optuna_configurator import OptunaConfigurator
+from app.domain.models.indicators.indicator_model import IndicatorModel
 import os
 import json
 
@@ -33,10 +32,11 @@ class LgbTrainService:
         super().__init__(*args, **kwargs)
 
     def train_yahoo_data(self, settings: dict) -> None:
-        indicators = settings["indicators"]
+ 
+        indicator_models = IndicatorFactory.get_indicator_models_by_params(settings["indicators"])
         lgb_model = settings["lgb_model"]
         execution_params = settings["execution_params"]
-        features = settings["features"]
+        
 
         model_type=lgb_model["model_type"]
         asset = execution_params["asset"]
@@ -55,11 +55,15 @@ class LgbTrainService:
 
         data = YahooService.load_yahoo_stock_data(asset)
         data = data[['DT', 'Open', 'High', 'Low', 'Close', 'Volume']].dropna()
-        indicators_list = IndicatorFactory.get_indicator_list_by_params(indicators)
-        data = IndicatorFactory.extend_dataframe_with_indicators(data, indicators_list)
+        
+        # data = alpaca_service.load_stock_data_from_redis(asset, period="1d")
+        # data = data[['DT', 'Open', 'High', 'Low', 'Close', 'Volume']].dropna()
+    
+        data = IndicatorFactory.extend_dataframe_with_indicators(
+            data, indicator_models)
         data = data.dropna()
         next_return = data['Close'].pct_change().shift(-1)
-        data["NEXT"] = next_return * 100
+        data["NEXT"] = next_return
         data["NEXT_DAY"] = data['Close'].shift(-1)
         data["DIFF_NEXT_DAY"] = data['Close'].shift(-1) - data['Close']
         
@@ -69,9 +73,10 @@ class LgbTrainService:
                 np.where(next_return < -price_change_threshold, -1, 0)
             )
         elif( model_type == 'regression'):
-            data['target'] = next_return * 100
+            data['target'] = next_return
             
         data = data.iloc[:-1]
+        features: list[str] = [ind.feature for ind in indicator_models]
         X = data[features]
         y = data['target']
 
@@ -79,61 +84,316 @@ class LgbTrainService:
         
         data.to_csv('csv/spy_results.csv', index=False)
        
+        if (model_type == 'classification'):
 
-        importance_dict = dict(zip(features, final_model.feature_importances_))
-        for feat, imp in sorted(importance_dict.items(), key=lambda x: x[1], reverse=True):
-            print(f"  {feat}: {imp:.4f}")
 
-        y_pred_proba = final_model.predict_proba(data[features])
-        # prob_down = y_pred_proba[:, 0]
-        # prob_up = y_pred_proba[:, 1]
-        prob_hold = y_pred_proba[:, 2]
-        prob_short = y_pred_proba[:, 0]
-        prob_long = y_pred_proba[:, 1]
+            importance_dict = dict(zip(features, final_model.feature_importances_))
+            for feat, imp in sorted(importance_dict.items(), key=lambda x: x[1], reverse=True):
+                print(f"  {feat}: {imp:.4f}")
 
-        data['signal'] = 0
-        data.loc[prob_long > long_threshold, 'signal'] = 1
-        data.loc[prob_short > short_threshold, 'signal'] = -1
-        data['confidence_hold'] = prob_hold
-        data['confidence_short'] = prob_short
-        data['confidence_long'] = prob_long
-        data['max_confidence'] = np.maximum(prob_hold, np.maximum(prob_short, prob_long))
-        data = self.backtest(data, tp, sl)
+            y_pred_proba = final_model.predict_proba(data[features])
+            # prob_down = y_pred_proba[:, 0]
+            # prob_up = y_pred_proba[:, 1]
+            prob_hold = y_pred_proba[:, 2]
+            prob_short = y_pred_proba[:, 0]
+            prob_long = y_pred_proba[:, 1]
+
+            data['signal'] = 0
+            data.loc[prob_long > long_threshold, 'signal'] = 1
+            data.loc[prob_short > short_threshold, 'signal'] = -1
+            data['confidence_hold'] = prob_hold
+            data['confidence_short'] = prob_short
+            data['confidence_long'] = prob_long
+            data['max_confidence'] = np.maximum(prob_hold, np.maximum(prob_short, prob_long))
+        
+        elif (model_type == 'regression'):
+            importance_dict = dict(zip(features, final_model.feature_importances_))
+            for feat, imp in sorted(importance_dict.items(), key=lambda x: x[1], reverse=True):
+                print(f"  {feat}: {imp:.4f}")
+
+            data['predicted_return'] = final_model.predict(data[features])
+            
+            # print data["target"] max and min and mean values
+            print(f"Max target value: {data['target'].max()}")
+            print(f"Min target value: {data['target'].min()}")
+            print(f"Mean target value: {data['target'].mean()}")
+            
+            # print data["predicted_return"] max  min and mean  values
+            print(f"Max predicted_return value: {data['predicted_return'].max()}")
+            print(f"Min predicted_return value: {data['predicted_return'].min()}")
+            print(f"Mean predicted_return value: {data['predicted_return'].mean()}")
+            
+            
+            
+            data['signal'] = 0
+            data.loc[data['predicted_return'] > long_threshold, 'signal'] = 1
+            data.loc[data['predicted_return'] < -short_threshold, 'signal'] = -1
+        
+        data = self.backtest_fees(data, tp, sl)
 
         daily_returns = pd.Series(data['return'])
         cumulative_product = np.prod([1 + r for r in daily_returns])
         total_return = cumulative_product - 1
         total_return_percentage = total_return * 100
-        data.to_csv('csv/spy_results.csv', index=False)
         final_equity = data['equity'].iloc[-1] if 'equity' in data.columns else None
 
-        sharpe_ratio = DataUtils.sharpe_ratio(daily_returns)
+        sharpe_ratio = DataUtils.calculate_sharpe(daily_returns)
         max_drawdown = DataUtils.max_drawdown(daily_returns)
         print(f"ABS Return: {data['return_abs'].sum()} ")
         print(f"Total Return: {total_return_percentage:.2f}%")
         print(f"Sharpe Ratio: {sharpe_ratio:.5f}")
         print(f"Max Drawdown: {max_drawdown:.5f}")
-
+        
+        data['equity'] = data['equity'].ffill()
+        returns = data['equity'].pct_change().dropna()
+        
+        sr = DataUtils.calculate_sharpe(returns, risk_free_rate=0.01)
+        print(f"Sharpe Ratio (with risk-free rate): {sr:.5f}")
         LGBModelFactory.save_lgb_model(final_model, asset, features)
+        data.to_csv('csv/spy_results.csv', index=False)
 
         result = {
             "profit": data['return_abs'].sum(),
             "total_return": total_return,
             "final_equity": final_equity,
-            "sharpe_ratio": sharpe_ratio,
+            "sharpe_ratio": sr,
             "max_drawdown": max_drawdown,
             "feature_importances": importance_dict
         }
         return result
     
+    def backtest_fees(
+        self,
+        data,
+        tp: float = 0.005,
+        sl: float = 0.004,
+        spread_per_trade: float = 0.005,
+        overnight_fee_rate: float = 0.00005,
+        asset: str = "SPY"
+    ):
+
+        equity = 10000.0
+
+        # --- Setup ---
+        data['position'] = 0
+        data['entry_price'] = np.nan
+        data['exit_price'] = np.nan
+        data['return'] = 0.0
+        data['return_abs'] = 0.0
+        data['equity'] = np.nan
+
+        pm = PositionManager.create_with_test_params(
+            asset=asset,
+            quantity=Decimal('1'),
+            strategy_type=IndicatorEnum.NONE,
+            close_positions_eod=False,
+            strategy_params=''
+        )
+
+        position_open = False
+        entry_price = 0.0
+        position_type = 0
+        position_id = UUID(int=0)
+        profit = 0.0
+        overnight_holds = 0
+        entry_idx = None
+        entry_date = None
+
+        # --- Haupt-Loop ---
+        for idx, row in data.iterrows():
+            current_price = row['Close']
+            current_signal = row['signal']
+            current_timestamp = row['DT']
+            confidence_up = row.get('confidence_up', 0)
+            confidence_down = row.get('confidence_down', 0)
+
+            if position_open:
+                # --- Overnight Gebühren zählen ---
+                prev_date = pd.to_datetime(
+                    entry_date).date() if entry_date else None
+                curr_date = pd.to_datetime(row['DT']).date()
+                if prev_date and curr_date > prev_date:
+                    overnight_holds += 1
+                    entry_date = row['DT']
+
+                if position_type == 1:
+                    current_return = (current_price - entry_price) / entry_price
+                else:
+                    current_return = (entry_price - current_price) / entry_price
+
+                # --- Take-Profit / Stop-Loss ---
+                if current_return >= tp or current_return <= -sl:
+                    exit_price = (
+                        entry_price * (1 + tp) if current_return >= tp and position_type == 1 else
+                        entry_price * (1 - tp) if current_return >= tp and position_type == -1 else
+                        entry_price * (1 - sl) if position_type == 1 else
+                        entry_price * (1 + sl)
+                    )
+
+                    reason = "TP" if current_return >= tp else "SL"
+                    pm.close_position(position_id, Decimal(
+                        str(exit_price)), current_timestamp, reason)
+
+                    # --- Gebühren anwenden ---
+                    total_fee = 2 * spread_per_trade
+                    overnight_fee = overnight_holds * overnight_fee_rate * entry_price
+
+                    p = (exit_price - entry_price) * \
+                        position_type - total_fee - overnight_fee
+                    data.loc[idx, 'exit_price'] = exit_price
+                    data.loc[idx, 'return'] = p / equity
+                    data.loc[idx, 'return_abs'] = p
+                    profit += p
+                    equity += p
+                    data.loc[idx, 'equity'] = equity
+
+                    # Reset
+                    position_open = False
+                    entry_price = 0.0
+                    position_type = 0
+                    overnight_holds = 0
+                    entry_idx = None
+                    entry_date = None
+                    continue
+
+                # --- Signalwechsel (Reverse) ---
+                if (position_type == 1 and current_signal == -1) or (position_type == -1 and current_signal == 1):
+                    total_fee = 2 * spread_per_trade
+                    overnight_fee = overnight_holds * overnight_fee_rate * entry_price
+
+                    data.at[idx, 'exit_price'] = current_price
+                    p = (current_price - entry_price) * \
+                        position_type - total_fee - overnight_fee
+                    data.at[idx, 'return'] = p / equity
+                    data.at[idx, 'return_abs'] = p
+                    profit += p
+                    equity += p
+                    data.at[idx, 'equity'] = equity
+
+                    pm.close_position(position_id, Decimal(
+                        str(current_price)), current_timestamp, "Reverse")
+
+                    position_open = False
+                    entry_price = 0.0
+                    position_type = 0
+                    overnight_holds = 0
+                    entry_idx = None
+                    entry_date = None
+
+            # --- Neue Position eröffnen ---
+            if not position_open:
+                if current_signal == 1:
+                    tp_price = Decimal(current_price * (1 + tp))
+                    sl_price = Decimal(current_price * (1 - sl))
+                    data.loc[idx, 'position'] = 1
+                    data.loc[idx, 'entry_price'] = current_price
+                    position_open = True
+                    entry_price = current_price
+                    position_type = 1
+                    position_id = pm.open_position(
+                        SideEnum.Buy,
+                        Decimal(str(current_price)),
+                        tp_price,
+                        sl_price,
+                        current_timestamp,
+                        confidence_up=confidence_up,
+                        confidence_down=confidence_down
+                    )
+                    overnight_holds = 0
+                    entry_idx = idx
+                    entry_date = row['DT']
+
+                elif current_signal == -1:
+                    tp_price = Decimal(current_price * (1 - tp))
+                    sl_price = Decimal(current_price * (1 + sl))
+                    data.loc[idx, 'position'] = -1
+                    data.loc[idx, 'entry_price'] = current_price
+                    position_open = True
+                    entry_price = current_price
+                    position_type = -1
+                    position_id = pm.open_position(
+                        SideEnum.Sell,
+                        Decimal(str(current_price)),
+                        tp_price,
+                        sl_price,
+                        current_timestamp,
+                        confidence_up=confidence_up,
+                        confidence_down=confidence_down
+                    )
+                    overnight_holds = 0
+                    entry_idx = idx
+                    entry_date = row['DT']
+
+        # --- Letzte offene Position schließen ---
+        if position_open:
+            last_idx = data.index[-1]
+            last_price = data.iloc[-1]['Close']
+            current_timestamp = data.iloc[-1]['DT']
+
+            prev_date = pd.to_datetime(entry_date).date()
+            curr_date = pd.to_datetime(current_timestamp).date()
+            overnight_holds += (curr_date - prev_date).days
+
+            total_fee = 2 * spread_per_trade
+            overnight_fee = overnight_holds * overnight_fee_rate * entry_price
+            p = (last_price - entry_price) * \
+                position_type - total_fee - overnight_fee
+
+            data.loc[last_idx, 'exit_price'] = last_price
+            data.loc[last_idx, 'return'] = p / equity
+            data.loc[last_idx, 'return_abs'] = p
+            profit += p
+            pm.close_position(position_id, Decimal(
+                str(last_price)), current_timestamp)
+            equity += p
+            data.loc[last_idx, 'equity'] = equity
+
+        # --- Summary ---
+        print(f"Asset: {asset}")
+        print(f"Total Profit: {profit:.2f}")
+        print(
+            f"Spread per trade: {spread_per_trade:.4f} USD, Overnight fee: {overnight_fee_rate:.6f}")
+        print("################################################")
+        pos = pm.get_positions()
+        if (len(pos) == 0):
+            return data
+        pos_df = pd.DataFrame([
+            {
+                'Id': position_id,
+                'side': position.side.name,
+                'openPrice': round(float(position.price_open), 3) if position.price_open is not None else None,
+                'closePrice': round(float(position.price_close), 3) if position.price_close is not None else None,
+                'take_profit': round(float(position.take_profit), 3) if getattr(position, 'take_profit', None) is not None else None,
+                'stop_loss': round(float(position.stop_loss), 3) if getattr(position, 'stop_loss', None) is not None else None,
+                'opened': position.stamp_opened.strftime("%y.%m.%d") if position.stamp_opened else "",
+                'closed': position.stamp_closed.strftime("%y.%m.%d") if position.stamp_closed else "",
+                'signal': position.close_signal,
+                'profit_loss': float(position.profit_loss) if getattr(position, 'profit_loss', None) is not None else None,
+                'confidence_up': float(position.confidence_up) if getattr(position, 'confidence_up', None) is not None else None,
+                'confidence_down': float(position.confidence_down) if getattr(position, 'confidence_down', None) is not None else None
+            }
+            for position_id, position in pos.items()
+        ])
+        pos_df.to_csv("csv/positions.csv")
+        profit = pm.calculate_profit()
+        number_of_trades = len(pos_df)
+        number_of_long_signals = len(pos_df[pos_df['side'] == 'Buy'])
+        number_of_short_signals = len(pos_df[pos_df['side'] == 'Sell'])
+        number_of_lost_positions = len(pos_df[pos_df['profit_loss'] < 0])
+        number_of_won_positions = len(pos_df[pos_df['profit_loss'] > 0])
+        print(f"PM ## Profit: {profit:.2f}   Number of Trades: {number_of_trades}, Long Signals: {number_of_long_signals}, Short Signals: {number_of_short_signals}, Won Positions: {number_of_won_positions}, Lost Positions: {number_of_lost_positions}")
+        print(
+            f"Win Rate: {number_of_won_positions / number_of_trades:.2%}" if number_of_trades > 0 else "Win Rate: N/A")
+
+
+        return data
+
     def backtest(self, data, tp=0.005, sl=0.004):
         """
         Backtest with ONLY ONE position open at a time
         Supports LONG (1) and SHORT (-1) positions
         """
-        initial_equity = 10000.0
-        equity = initial_equity
-        equity_curve = []
+        equity = 10000.0     
 
         data['position'] = 0
         data['entry_price'] = np.nan
@@ -180,38 +440,36 @@ class LgbTrainService:
                             exit_price = entry_price * (1 + sl)
                         pm.close_position(position_id, Decimal(str(exit_price)), current_timestamp, "SL")
                     p = (exit_price - entry_price) * position_type
-                    data.at[idx, 'exit_price'] = exit_price
-                    data.at[idx, 'return'] = p / equity
-                    data.at[idx, 'return_abs'] = (exit_price - entry_price) * position_type
+                    data.loc[idx, 'exit_price'] = exit_price
+                    data.loc[idx, 'return'] = p / equity
+                    data.loc[idx, 'return_abs'] = (exit_price - entry_price) * position_type
                     profit += p
                     equity += p
-                    data.at[idx, 'equity'] = equity
-                    equity_curve.append(equity)
+                    data.loc[idx, 'equity'] = equity
                     position_open = False
                     entry_price = 0.0
                     position_type = 0
                     continue
 
                 if (position_type == 1 and current_signal == -1) or (position_type == -1 and current_signal == 1):
-                    data.at[idx, 'exit_price'] = current_price
+                    data.loc[idx, 'exit_price'] = current_price
                     p = (current_price - entry_price) * position_type
-                    data.at[idx, 'return'] = p / equity
-                    data.at[idx, 'return_abs'] = p
+                    data.loc[idx, 'return'] = p / equity
+                    data.loc[idx, 'return_abs'] = p
                     profit += p
                     equity += p
-                    data.at[idx, 'equity'] = equity
+                    data.loc[idx, 'equity'] = equity
                     pm.close_position(position_id, Decimal(str(current_price)), current_timestamp, "Reverse")
                     position_open = False
                     entry_price = 0.0
                     position_type = 0
-                    equity_curve.append(equity)
 
             if not position_open:
                 if current_signal == 1:
                     tp_price, sl_price = Decimal(
                         current_price + current_price * tp), Decimal(current_price - current_price * sl)
-                    data.at[idx, 'position'] = 1
-                    data.at[idx, 'entry_price'] = current_price
+                    data.loc[idx, 'position'] = 1
+                    data.loc[idx, 'entry_price'] = current_price
                     position_open = True
                     entry_price = current_price
                     position_type = 1
@@ -220,8 +478,8 @@ class LgbTrainService:
                 elif current_signal == -1:
                     tp_price, sl_price = Decimal(
                         current_price - current_price * tp), Decimal(current_price + current_price * sl)
-                    data.at[idx, 'position'] = -1
-                    data.at[idx, 'entry_price'] = current_price
+                    data.loc[idx, 'position'] = -1
+                    data.loc[idx, 'entry_price'] = current_price
                     position_open = True
                     entry_price = current_price
                     position_type = -1
@@ -237,20 +495,21 @@ class LgbTrainService:
             else:
                 final_return = (entry_price - last_price) / entry_price
             p = (last_price - entry_price) * position_type
-            data.at[last_idx, 'exit_price'] = last_price
-            data.at[last_idx, 'return'] = p / equity
-            data.at[last_idx, 'return_abs'] = p
+            data.loc[last_idx, 'exit_price'] = last_price
+            data.loc[last_idx, 'return'] = p / equity
+            data.loc[last_idx, 'return_abs'] = p
             profit += p
             pm.close_position(position_id, Decimal(str(last_price)), current_timestamp)
             equity += p
-            data.at[last_idx, 'equity'] = equity
-            equity_curve.append(equity)
+            data.loc[last_idx, 'equity'] = equity
 
         number_of_positions = sum(data['position'] != 0)
         print(f"Total Profit from Test: {profit:.2f}")
         print(f"Total Number of Positions Taken: {number_of_positions}")
         print("################################################")
         pos = pm.get_positions()
+        if(len(pos) == 0):
+            return data
         pos_df = pd.DataFrame([
             {
                 'Id': position_id,
@@ -268,8 +527,7 @@ class LgbTrainService:
             }
             for position_id, position in pos.items()
         ])
-        pos_df.to_csv("csv/positions.csv")
-        data.to_csv("csv/spy_test.csv")
+        pos_df.to_csv("csv/positions.csv")     
 
         profit = pm.calculate_profit()
         number_of_trades = len(pos_df)
@@ -283,14 +541,18 @@ class LgbTrainService:
         if 'DT' in data.columns and 'return_abs' in data.columns:
             data['year'] = pd.to_datetime(data['DT']).dt.year
             yearly_profit = data.groupby('year')['return_abs'].sum()
-            yearly_trades = data.groupby('year')['position'].count()
+            
+            # sum all entries in position column not equal to 0
+            yearly_trades = data.groupby('year')['position'].apply(lambda x: (x != 0).sum())
+            
+            
             print("Yearly Profit:")
             for year, prof in yearly_profit.items():
                 print(f"  {year}: Profit {prof:.2f} Number of Trades: {yearly_trades.get(year, 0)}")
 
         return data
     
-    def walk_forward_validation(self, model_params, X, y, train_years=6, test_years=1, start_year=2010):
+    def walk_forward_validation(self, model_params, X, y, train_years=6, test_years=1, start_year=2010):  
         results = []
         for i in range(start_year + train_years, 2025):
             train_start = f'{i - train_years}-01-01'
@@ -300,20 +562,19 @@ class LgbTrainService:
             X_train, y_train = X.loc[train_start: train_end], y.loc[train_start:train_end]
             X_test, y_test = X.loc[test_start:test_end], y.loc[test_start:test_end]
            
-            model = LGBModelFactory.create_lgb_model(
-                    'regression', model_params)
+            model = LGBModelFactory.create_lgb_model(model_params)
             model.fit(X_train, y_train)
             
             y_pred = model.predict(X_test)
 
             # Evaluation
-            rmse = mean_squared_error(y_test, y_pred)
-            print(f"RMSE: {rmse}")
+        #     rmse = mean_squared_error(y_test, y_pred)
+        #     print(f"RMSE: {rmse}")
             
-        direction_correct = (np.sign(y_pred) == np.sign(y_test)).mean()
+        # direction_correct = (np.sign(y_pred) == np.sign(y_test)).mean()
 
 
-        print(f"Richtungsgenauigkeit: {direction_correct:.4%}")
+        # print(f"Richtungsgenauigkeit: {direction_correct:.4%}")
 
 
         # plt.figure(figsize=(12, 6))
@@ -386,7 +647,11 @@ class LgbTrainService:
         return pd.DataFrame(results)
 
 
-    def get_train_results_by_test_settings(self, settings: dict, model_params, indicators) -> None:
+    def get_train_results_by_test_settings(self, settings: dict, model_params, indicators : list[IndicatorModel]) -> None:
+        
+        
+        
+        model_type= model_params["model_type"]
         price_change_threshold = settings.get("price_change_threshold")
         long_threshold = settings.get("long_threshold")
         short_threshold = settings.get("short_threshold")
@@ -395,30 +660,31 @@ class LgbTrainService:
         asset = settings["asset"]
         start_date = settings["start_date"]
         end_date = settings["end_date"]
-        test_filename = f'csv/alpaca_{asset}_{start_date}_{end_date}.csv'
-        # Binary model predicts: 0 (DOWN) or 1 (UP)
-        # But we generate 3 signals: -1 (SHORT), 0 (HOLD), 1 (LONG)
-        # HOLD = Low confidence predictions (uncertain)
+    
         data = YahooService.load_yahoo_stock_data(asset)
         data = data[['DT', 'Open', 'High', 'Low', 'Close', 'Volume']].dropna()    
         data = IndicatorFactory.extend_dataframe_with_indicators(
             data, indicators)
-        indicator_enums = []
-        for ind_enum in indicators:
-            print(f"Using Indicator: {ind_enum.strategyType}")
-            indicator_enums.append(ind_enum.strategyType)
-        features = OptunaConfigurator.get_features_by_indicators(indicator_enums)
+        features:list[str] = []
+        for ind in indicators:
+            features.append(ind.feature)
         # Drop rows with NaN values (due to rolling windows)
         data = data.dropna()
         # --- 3. Target Variable: Next-Day DIRECTION (not exact return) ---
         # Use a threshold to filter out noise
         next_return = data['Close'].pct_change().shift(-1)
-        data['return'] = next_return
-        # Create binary target: 1 = up, 0 = down
-        data['target'] = np.where(
-            next_return > price_change_threshold, 1,
-            np.where(next_return < -price_change_threshold, -1, 0)
-        )
+        data["NEXT"] = next_return
+        data["NEXT_DAY"] = data['Close'].shift(-1)
+        data["DIFF_NEXT_DAY"] = data['Close'].shift(-1) - data['Close']
+
+        if (model_type == 'classification'):
+            data['target'] = np.where(
+                next_return > price_change_threshold, 1,
+                np.where(next_return < -price_change_threshold, -1, 0)
+            )
+        elif (model_type == 'regression'):
+            data['target'] = next_return
+            
         #  data.to_csv(test_filename)
         # Drop neutral days (within threshold)
         #  data = data.dropna(subset=['target'])
@@ -432,52 +698,57 @@ class LgbTrainService:
         # yahoo data => more than 5 year needed
         final_model = self.walk_forward_validation(model_params,
            X, y, train_years=5, test_years=1, start_year=2010)
-        # results_df, final_model = self.walk_forward_validation_1h(X, y)
-        # --- 9. Print Results ---
-        # print("Walk-Forward Validation Results:")
-        # print(results_df)
-        # print("\nFeature Importance:")
+
+
+        # y_pred_proba = final_model.predict_proba(data[features])
+        # # prob_down = y_pred_proba[:, 0]
+        # # prob_up = y_pred_proba[:, 1]
+        # prob_hold = y_pred_proba[:, 2]
+        # prob_short = y_pred_proba[:, 0]
+        # prob_long = y_pred_proba[:, 1]
+
+        # data['signal'] = 0
+        # data.loc[prob_long > long_threshold, 'signal'] = 1
+        # data.loc[prob_short > short_threshold, 'signal'] = -1
+        # data['confidence_hold'] = prob_hold
+        # data['confidence_short'] = prob_short
+        # data['confidence_long'] = prob_long
+        # data['max_confidence'] = np.maximum(
+        #     prob_hold, np.maximum(prob_short, prob_long))
+        
+        if (model_type == 'classification'):     
+
+            y_pred_proba = final_model.predict_proba(data[features])
+            # prob_down = y_pred_proba[:, 0]
+            # prob_up = y_pred_proba[:, 1]
+            prob_hold = y_pred_proba[:, 2]
+            prob_short = y_pred_proba[:, 0]
+            prob_long = y_pred_proba[:, 1]
+
+            data['signal'] = 0
+            data.loc[prob_long > long_threshold, 'signal'] = 1
+            data.loc[prob_short > short_threshold, 'signal'] = -1
+            data['confidence_hold'] = prob_hold
+            data['confidence_short'] = prob_short
+            data['confidence_long'] = prob_long
+            data['max_confidence'] = np.maximum(prob_hold, np.maximum(prob_short, prob_long))
+        
+        elif (model_type == 'regression'):      
+
+            data['predicted_return'] = final_model.predict(data[features]) 
+            data['signal'] = 0
+            data.loc[data['predicted_return'] > long_threshold, 'signal'] = 1
+            data.loc[data['predicted_return'] < -short_threshold, 'signal'] = -1        
+        
         importance_dict = dict(zip(features, final_model.feature_importances_))
         # for feat, imp in sorted(importance_dict.items(), key=lambda x: x[1], reverse=True):
         #     print(f"  {feat}: {imp:.4f}")
-        # --- BACKTESTING: Generate Signals with Confidence Threshold ---
-        # Get prediction probabilities
-        
-        y_pred_proba = final_model.predict_proba(data[features])
-        # prob_down = y_pred_proba[:, 0]
-        # prob_up = y_pred_proba[:, 1]
-        prob_hold = y_pred_proba[:, 2]
-        prob_short = y_pred_proba[:, 0]
-        prob_long = y_pred_proba[:, 1]
-
-        data['signal'] = 0
-        data.loc[prob_long > long_threshold, 'signal'] = 1
-        data.loc[prob_short > short_threshold, 'signal'] = -1
-        data['confidence_hold'] = prob_hold
-        data['confidence_short'] = prob_short
-        data['confidence_long'] = prob_long
-        data['max_confidence'] = np.maximum(
-            prob_hold, np.maximum(prob_short, prob_long))
-        
-        # y_pred_proba = final_model.predict_proba(data[features])
-        # # Extract probabilities for each class
-        # prob_down = y_pred_proba[:, 0]  # Probability of DOWN (class 0)
-        # prob_up = y_pred_proba[:, 1]    # Probability of UP (class 1)
-        # # Generate 3-way signals: LONG (1), SHORT (-1), HOLD (0)
-        # data['signal'] = 0  # Default to HOLD
-        # # LONG: High confidence that price will go UP
-        # data.loc[prob_up > long_threshold, 'signal'] = 1
-        # # SHORT: High confidence that price will go DOWN
-        # data.loc[prob_down > short_threshold, 'signal'] = -1
-        # # HOLD: Everything else (low confidence either way)
-        # # This happens automatically with default = 0
-        # # --- 4. Run Backtest ---
         results = self.minimized_test(data, tp, sl)
         # --- 5. Calculate Performance Metrics ---
         trades = results.dropna(subset=['return'])
         total_return = (1 + trades['return']).prod() - 1
         win_rate = len(trades[trades['return'] > 0]) / len(trades)
-        sharpe_ratio = DataUtils.sharpe_ratio(trades['return'])        
+        sharpe_ratio = DataUtils.calculate_sharpe(trades['return'])
         max_drawdown = DataUtils.max_drawdown(trades['return'])
         # print(f"Profit: {trades['return_abs'].sum()}  ")
         # print(f"Win Rate: {win_rate:.2%}")
@@ -491,20 +762,21 @@ class LgbTrainService:
             "model": final_model,  # used for saving the model later
             "max_drawdown": max_drawdown
         }
-        print(f"Result Summary: {result}")
         return result
 
     def minimized_test(self, data, tp, sl):
+        equity = 10000.0
         data['position'] = 0  # 0 = flat, 1 = long, -1 = short
         data['entry_price'] = np.nan
         data['exit_price'] = np.nan
         data['return'] = 0.0
         data['return_abs'] = 0.0
-
+        data['equity'] = np.nan
+        data.at[data.index[0], 'equity'] = equity
+        
         position_open = False
         entry_price = 0.0
         position_type = 0  # 1 = long, -1 = short, 0 = no position
-        position_id = UUID(int=0)
         profit = 0.0
         for idx, row in data.iterrows():
             current_price = row['Close']
@@ -526,10 +798,14 @@ class LgbTrainService:
                         exit_price = entry_price * (1 + tp)
                     else:
                         exit_price = entry_price * (1 - tp)
-                    data.at[idx, 'exit_price'] = exit_price
-                    data.at[idx, 'return'] = tp
-                    data.at[idx, 'return_abs'] = (exit_price - entry_price) * position_type
-                    profit += (exit_price - entry_price) * position_type
+                        
+                    p = (exit_price - entry_price) * position_type
+                    data.loc[idx, 'exit_price'] = exit_price
+                    data.loc[idx, 'return'] = p / equity
+                    data.loc[idx, 'return_abs'] = (exit_price - entry_price) * position_type
+                    profit += p
+                    equity += p
+                    data.loc[idx, 'equity'] = equity
                     position_open = False
                     entry_price = 0.0
                     position_type = 0
@@ -542,10 +818,13 @@ class LgbTrainService:
                         exit_price = entry_price * (1 - sl)
                     else:
                         exit_price = entry_price * (1 + sl)
-                    data.at[idx, 'exit_price'] = exit_price
-                    data.at[idx, 'return'] = -sl
-                    data.at[idx, 'return_abs'] = (exit_price - entry_price) * position_type
-                    profit += (exit_price - entry_price) * position_type
+                    p = (exit_price - entry_price) * position_type
+                    data.loc[idx, 'exit_price'] = exit_price
+                    data.loc[idx, 'return'] = p / equity
+                    data.loc[idx, 'return_abs'] = (exit_price - entry_price) * position_type
+                    profit += p
+                    equity += p
+                    data.loc[idx, 'equity'] = equity
                     position_open = False
                     entry_price = 0.0
                     position_type = 0
@@ -553,11 +832,13 @@ class LgbTrainService:
 
                 if (position_type == 1 and current_signal == -1) or (position_type == -1 and current_signal == 1):
                     # CLOSE current position
-                    data.at[idx, 'exit_price'] = current_price
-                    data.at[idx, 'return'] = current_return
-                    data.at[idx, 'return_abs'] = (
-                        current_price - entry_price) * position_type
-                    profit += (current_price - entry_price) * position_type
+                    p = (current_price - entry_price) * position_type
+                    data.loc[idx, 'exit_price'] = current_price
+                    data.loc[idx, 'return'] = p / equity
+                    data.loc[idx, 'return_abs'] = (current_price - entry_price) * position_type
+                    profit += p
+                    equity += p
+                    data.loc[idx, 'equity'] = equity
                     position_open = False
                     entry_price = 0.0
                     position_type = 0
@@ -567,16 +848,17 @@ class LgbTrainService:
                 if current_signal == 1:  # BUY signal → LONG
                     tp_price, sl_price = Decimal(
                         current_price + current_price * tp), Decimal(current_price - current_price * sl)
-                    data.at[idx, 'position'] = 1
-                    data.at[idx, 'entry_price'] = current_price
+                    data.loc[idx, 'position'] = 1
+                    data.loc[idx, 'entry_price'] = current_price
                     position_open = True
                     entry_price = current_price
                     position_type = 1
+      
                 elif current_signal == -1:  # SELL signal → SHORT
                     tp_price, sl_price = Decimal(
                         current_price - current_price * tp), Decimal(current_price + current_price * sl)
-                    data.at[idx, 'position'] = -1
-                    data.at[idx, 'entry_price'] = current_price
+                    data.loc[idx, 'position'] = -1
+                    data.loc[idx, 'entry_price'] = current_price
                     position_open = True
                     entry_price = current_price
                     position_type = -1
@@ -589,13 +871,15 @@ class LgbTrainService:
                 final_return = (last_price - entry_price) / entry_price
             else:  # Close SHORT
                 final_return = (entry_price - last_price) / entry_price
-            data.at[last_idx, 'exit_price'] = last_price
-            data.at[last_idx, 'return'] = final_return
-            data.at[last_idx, 'return_abs'] = final_return * entry_price
-            profit += final_return * entry_price
-
-        number_of_positions = sum(data['position'] != 0)
-        # print(f"Total Profit from Test: {profit:.2f} Number of Positions Taken: {number_of_positions}")
+            p = (last_price - entry_price) * position_type
+            data.loc[last_idx, 'exit_price'] = last_price
+            data.loc[last_idx, 'return'] = final_return
+            data.loc[last_idx, 'return_abs'] = p
+            profit += p
+            equity += p
+            data.loc[last_idx, 'equity'] = equity
+            
+        print(f"Minimized Test ## Total Profit: {profit:.2f} equity={equity:.2f}")
 
         return data
 

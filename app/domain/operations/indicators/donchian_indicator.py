@@ -3,8 +3,6 @@ import pandas as pd
 import talib as ta
 
 from app.domain import *
-from app.domain.models.strategies.donchian_model import DonchianModel
-from app.domain.operations.indicators.base_indicator import BaseIndicator
 
 class DonchianIndicator(BaseIndicator):
     

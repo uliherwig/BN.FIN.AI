@@ -1,13 +1,9 @@
 import numpy as np
 import pandas as pd
 import lightgbm as lgb
+import optuna
 from typing import Any
 from datetime import datetime, timedelta, timezone
-from app.domain.models.strategies.breakout_model import BreakoutModel
-from app.domain.operations.indicators.ema_indicator import EmaIndicator
-from app.domain.operations.indicators.tema_indicator import TemaIndicator
-from app.domain.operations.indicators.wma_indicator import WmaIndicator
-from app.infrastructure.redis_service import RedisService, get_redis_service
 from app.infrastructure import alpaca_service
 from sklearn.model_selection import ParameterGrid
 from celery import Celery
@@ -18,10 +14,14 @@ from app.domain.strategy_manager import StrategyManager
 from app.domain.operations.indicator_factory import IndicatorFactory
 from app.domain.services.train.lgb_train_service import LgbTrainService
 from app.domain.services.optimize.indicator_optimizer import IndicatorOptimizationService
+from app.domain.services.optimize.indicator_type_optimizer import IndicatorTypeOptimizationService
+from app.domain.services.optimize.indicator_param_optimizer import IndicatorParamOptimizationService
+from app.domain.services.optimize.lgb_model_optimizer import LgbModelOptimizationService
 from app.domain.services.optimize.execution_optimizer import ExecutionOptimizationService
-from app.domain.services.optimize.model_optimizer import ModelOptimizationService
-from app.domain.services.optimize.shared_optuna import create_study
+from app.domain.services.optimize.optuna_service import OptunaService
+
 import json
+import plotly
 
 # Celery App Configuration
 celery_app = Celery('strategy_tasks')
@@ -53,37 +53,123 @@ def test_single_strategy(strategy_settings: StrategySettingsModel) -> None:
 @celery_app.task
 def optimize_lgb_training(strategy_settings: dict) -> Any:
     train = LgbTrainService()
-    selected_indicators = [IndicatorEnum.SMA, 
-                           IndicatorEnum.BBANDS, 
-                           IndicatorEnum.RSI, 
-                           IndicatorEnum.VOLA,
-                           IndicatorEnum.MACD,
-                           IndicatorEnum.DONCHIAN,
-                           IndicatorEnum.ATR]
+    optuna_service = OptunaService()
     
-    ind_opt = IndicatorOptimizationService(train, selected_indicators=selected_indicators)
-    ind_study = ind_opt.optimize()
-    best_indicators = ind_study.best_trials[0].params if ind_study.best_trials else {}
-    print(f"Length of best indicator trials: {len(ind_study.best_trials)}")
-    print(f"Best Indicators: {best_indicators}")
     
-    indicators_list = IndicatorFactory.get_indicator_list_by_params(best_indicators)
-    model_opt = ModelOptimizationService(train, indicators=indicators_list)
-    model_study = model_opt.optimize()
-    best_model_params = model_study.best_trials[0].params if model_study.best_trials else {}
-    print(f"Length of best model trials: {len(model_study.best_trials)}")
-    print(f"Best Model Params: {best_model_params}")
+    opti = 1
     
-    exec_opt = ExecutionOptimizationService(
-        train, indicators=indicators_list, model_params=best_model_params
-    )
-    exec_study = exec_opt.optimize()
-    best_exec_params = exec_study.best_trials[0].params if exec_study.best_trials else {}
-    print(f"Length of best execution trials: {len(exec_study.best_trials)}")
+    
+    if(opti == 0):
+        ind_opt = IndicatorTypeOptimizationService(train, optuna_service)
+        ind_study = ind_opt.optimize()
+        best_indicator_types = ind_study.best_trial.params 
+        
+
+        print(f"Length of best indicator trials: {len(ind_study.best_trials)}")
+        print(f"Best Indicators found: {best_indicator_types}")
+        
+        
+        fig = optuna.visualization.plot_optimization_history(
+            ind_study,
+            target=lambda t: t.values[0],  # 0 for Sharpe, 1 for maxdd
+            target_name="Sharpe Ratio"
+        )
+        fig.show()
+        fig.write_html("optuna_optimization_history.html")  
+    
+        return
+
+    best_indicator_types = {'SMA': False, 'EMA': True, 'WMA': True, 'TEMA': True, 'MACD': True,
+                            'RSI': False, 'DONCHIAN': False, 'VOLA': False, 'ATR': True, 'BBANDS': False, 'ROC': True}
+    
+    
+    selected_indicators = [
+        indicator for indicator, enabled in best_indicator_types.items() if enabled
+    ]
+    print (f"Selected Indicators for Param Optimization: {selected_indicators}")
+  
+    if(opti == 1):
+        ind_opt = IndicatorParamOptimizationService(
+            train,optuna_service=optuna_service, selected_indicators=selected_indicators)
+        ind_param_study = ind_opt.optimize()
+        best_indicator_params = ind_param_study.best_trial.params if ind_param_study.best_trial else {
+        }
+        print(f"Length of best indicator trials: {len(ind_param_study.best_trials)}")
+        print(f"Best Indicators: {best_indicator_params}")
+        print(f"Best Trial: {ind_param_study.best_trial.value}")
+        
+        fig = optuna.visualization.plot_optimization_history(
+            ind_param_study,
+            target=lambda t: t.values[0],
+            target_name="Sharpe Ratio"
+        )
+        fig.show()
+        fig.write_html("optuna_optimization_history.html")
+
+        return
+    # ======================================================================
+    
+    
+
+
+    if(opti==2):
+        best_indicator_params = {"EMA_short": 18, "EMA_long": 199, "WMA_short": 45, "WMA_long": 214,
+                                 "MACD_fast": 10, "MACD_slow": 34, "MACD_signal": 13, "RSI_period": 8, "VOLA_period": 17}
+        
+        indicator_models = IndicatorFactory.get_indicator_models_by_params(best_indicator_params)
+        model_opt = LgbModelOptimizationService(train,optuna_service=optuna_service, indicator_models=indicator_models)
+        model_study = model_opt.optimize()
+        best_lgb_model_params = model_study.best_trial.params if model_study.best_trial else {}
+        print(f"Length of best model trials: {len(model_study.best_trials)}")
+        print(f"Best Model Params: {best_lgb_model_params}")
+        print(f"Best Trial: {model_study.best_trial.value}")
+        
+        fig = optuna.visualization.plot_optimization_history(
+            model_study,
+            target=lambda t: t.values[0],
+            target_name="Sharpe Ratio"
+        )
+     
+        fig.write_html("optuna_optimization_history.html")
+
+        return
+    # ======================================================================
+    
+  
+    
+    
+    if(opti==3):
+        best_indicator_params = {"EMA_short": 18, "EMA_long": 199, "WMA_short": 45, "WMA_long": 214,
+                                 "MACD_fast": 10, "MACD_slow": 34, "MACD_signal": 13, "RSI_period": 8, "VOLA_period": 17}
+        
+        best_lgb_model_params = {"learning_rate": 0.05, "num_leaves": 100, "max_depth": 6,
+                                 "subsample": 0.9, "colsample_bytree": 0.58, "n_estimators": 500, "model_type": "regression"}
+        indicator_models = IndicatorFactory.get_indicator_models_by_params(best_indicator_params) 
+        best_lgb_model_params["model_type"] = "regression"
+
+        exec_opt = ExecutionOptimizationService(
+            train, optuna_service=optuna_service, indicators=indicator_models, model_params=best_lgb_model_params
+        )
+        exec_study = exec_opt.optimize()
+        best_exec_params = exec_study.best_trial.params if exec_study.best_trial else {}
+        print(f"Length of best execution trials: {len(exec_study.best_trials)}")
+        print(f"Best Execution Params: {best_exec_params}")
+        print(f"Best Trial: {exec_study.best_trial.value}")
+        
+        fig = optuna.visualization.plot_optimization_history(
+            exec_study,
+            target=lambda t: t.values[0],
+            target_name="Sharpe Ratio"
+        )
+        fig.show()
+        fig.write_html("optuna_optimization_history.html")
+
+        return
     
     print("#############################################################")
-    print(f"Best Indicators: {best_indicators}")
-    print(f"Best Model Params: {best_model_params}")
+    print(f"Best Indicators: {best_indicator_types}")
+    print(f"Best Indicator Params: {best_indicator_params}")
+    print(f"Best Model Params: {best_lgb_model_params}")
     print(f"Best Execution Params: {best_exec_params}")
 
 @celery_app.task

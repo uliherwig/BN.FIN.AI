@@ -4,10 +4,7 @@ import pandas as pd
 import talib as ta
 from typing import Any
 from datetime import datetime, timedelta, timezone
-
 from app.domain.operations.indicators.base_indicator import BaseIndicator
-from app.domain.models.strategies.bbands_model import BbandsModel
-
 from app.domain import *
 
 class BbandsIndicator(BaseIndicator):

@@ -3,8 +3,6 @@ import pandas as pd
 import talib as ta
 
 from app.domain import *
-from app.domain.models.strategies.breakout_model import BreakoutModel
-from app.domain.operations.indicators.base_indicator import BaseIndicator
 
 class BreakoutIndicator(BaseIndicator):
     """

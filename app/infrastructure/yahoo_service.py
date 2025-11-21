@@ -4,7 +4,6 @@ import lightgbm as lgb
 import yfinance as yf
 from typing import Any
 from datetime import datetime, timedelta, timezone
-from app.domain.models.strategies.breakout_model import BreakoutModel
 from app.domain.operations.indicators.ema_indicator import EmaIndicator
 from app.domain.operations.indicators.tema_indicator import TemaIndicator
 from app.domain.operations.indicators.wma_indicator import WmaIndicator
@@ -68,7 +67,7 @@ class YahooService():
             data = data.drop(index=1)
             # rename col Price to Date
             # list columns
-            print(f"Columns in data: {data.columns.tolist()}")
+            # print(f"Columns in data: {data.columns.tolist()}")
             numeric_columns = ['Open', 'High', 'Low', 'Close', 'Volume']
             for col in numeric_columns:
                 if col in data.columns:

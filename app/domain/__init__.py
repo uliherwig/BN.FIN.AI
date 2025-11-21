@@ -5,26 +5,27 @@ from app.domain.models.strategy_settings_model import StrategySettingsModel
 
 from app.domain.operations.indicators.base_indicator import BaseIndicator
 
-from app.domain.models.strategies.sma_model import SmaModel
-from app.domain.models.strategies.donchian_model import DonchianModel
-from app.domain.models.strategies.macd_model import MacdModel
-from app.domain.models.strategies.rsi_model import RsiModel
-from app.domain.models.strategies.ema_model import EmaModel
-from app.domain.models.strategies.wma_model import WmaModel
-from app.domain.models.strategies.tema_model import TemaModel
-from app.domain.models.strategies.vola_model import VolatilityModel
-from app.domain.models.strategies.atr_model import AtrModel
-from app.domain.models.strategies.indicator_model import IndicatorModel
-from app.domain.models.strategies.bbands_model import BbandsModel
+from app.domain.models.indicators.sma_model import SmaModel
+from app.domain.models.indicators.donchian_model import DonchianModel
+from app.domain.models.indicators.macd_model import MacdModel
+from app.domain.models.indicators.rsi_model import RsiModel
+from app.domain.models.indicators.ema_model import EmaModel
+from app.domain.models.indicators.wma_model import WmaModel
+from app.domain.models.indicators.tema_model import TemaModel
+from app.domain.models.indicators.vola_model import VolatilityModel
+from app.domain.models.indicators.atr_model import AtrModel
+from app.domain.models.indicators.indicator_model import IndicatorModel
+from app.domain.models.indicators.bbands_model import BbandsModel
+from app.domain.models.indicators.roc_model import RocModel
+
 
 
 from app.domain.operations.data_utils import DataUtils
 from decimal import Decimal
 
-from app.domain.services.optimize.indicator_optimizer import IndicatorOptimizationService
-from app.domain.services.optimize.execution_optimizer import ExecutionOptimizationService
-from app.domain.services.optimize.model_optimizer import ModelOptimizationService
-from app.domain.services.optimize.shared_optuna import create_study
+# from app.domain.services.optimize.indicator_optimizer import IndicatorOptimizationService
+# from app.domain.services.optimize.execution_optimizer import ExecutionOptimizationService
+# from app.domain.services.optimize.model_optimizer import ModelOptimizationService
 
 
 __all__ = [
@@ -50,6 +51,7 @@ __all__ = [
     'AtrModel',
     'IndicatorModel',
     'BbandsModel',
+    'RocModel',
     # utils
     'DataUtils',   
 

@@ -8,21 +8,23 @@ import joblib
 class LGBModelFactory:
     
     @staticmethod
-    def create_lgb_model(model_type: str, params: dict = None) :
+    def create_lgb_model(params: dict = None) :
         
         
         # print(f"Creating LightGBM model of type: {model_type} with params: {params}")
-
+        model_type = params.get("model_type")
         learning_rate = params.get("learning_rate")
         num_leaves = params.get("num_leaves")
         max_depth = params.get("max_depth")
         subsample = params.get("subsample")
         colsample_bytree = params.get("colsample_bytree")
         n_estimators = params.get("n_estimators")
+        
 
         if params is None:
             params = {}
         if model_type == 'classification':
+            
             return lgb.LGBMClassifier(
                 n_estimators=n_estimators,
                 learning_rate=learning_rate,
@@ -36,6 +38,7 @@ class LGBModelFactory:
                 verbose=-1     
             )
         elif model_type == 'regression':
+            
             return lgb.LGBMRegressor(
                 objective='regression',
                 metric="rmse",
@@ -56,23 +59,26 @@ class LGBModelFactory:
     @staticmethod
     def save_lgb_model(model, asset, features, scaler=None) -> None:
         os.makedirs('ai_models', exist_ok=True)
-        model_path = f'ai_models/lgb_{asset}_classifier.pkl'
+        day = pd.Timestamp.now().strftime("%Y%m%d")
+        model_path = f'ai_models/lgb_{asset}_{day}.pkl'
         joblib.dump(model, model_path)
         print(f"✅ Model saved to {model_path}")
         if scaler is not None:
-            scaler_path = f'ai_models/lgb_{asset}_scaler.pkl'
+            scaler_path = f'ai_models/lgb_{asset}_{day}_scaler.pkl'
             joblib.dump(scaler, scaler_path)
             print(f"✅ Scaler saved to {scaler_path}")
-        features_path = f'ai_models/lgb_{asset}_features.pkl'   
+        features_path = f'ai_models/lgb_{asset}_{day}_features.pkl'   
         joblib.dump(features, features_path)
         print(f"✅ Features saved to {features_path}")
 
     @staticmethod
-    def load_lgb_model(asset: str):
+    def load_lgb_model(asset: str, day: str):
         try:
-            model_path = f'ai_models/lgb_{asset}_classifier.pkl'
-            features_path = f'ai_models/lgb_{asset}_features.pkl'
-            scaler_path = f'ai_models/lgb_{asset}_scaler.pkl'
+            if day is None:
+                day = pd.Timestamp.now().strftime("%Y%m%d")
+            model_path = f'ai_models/lgb_{asset}_{day}.pkl'
+            features_path = f'ai_models/lgb_{asset}_{day}_features.pkl'
+            scaler_path = f'ai_models/lgb_{asset}_{day}_scaler.pkl'
             model = joblib.load(model_path)
             print(f"✅ Model loaded from {model_path}")
             features = joblib.load(features_path)

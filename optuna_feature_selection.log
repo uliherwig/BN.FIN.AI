@@ -1,0 +1,2765 @@
+[
+    {
+        "trial_number": 4,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5461.955818023683,
+        "max_drawdown": 5.947885667267671e-05,
+        "sharpe_ratio": 4.976684189716165
+    },
+    {
+        "trial_number": 5,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "DONCHIAN"
+        ],
+        "profit": 5522.746984863283,
+        "max_drawdown": 5.925566137190069e-05,
+        "sharpe_ratio": 4.834646828035216
+    },
+    {
+        "trial_number": 7,
+        "selected_features": [
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4248.133020401002,
+        "max_drawdown": 0.0007492790709410124,
+        "sharpe_ratio": 2.910525892676192
+    },
+    {
+        "trial_number": 6,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4401.2111229705815,
+        "max_drawdown": 0.00074176285463968,
+        "sharpe_ratio": 3.053943811871833
+    },
+    {
+        "trial_number": 9,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4385.314525604249,
+        "max_drawdown": 0.0007409150977230927,
+        "sharpe_ratio": 2.9704158068993136
+    },
+    {
+        "trial_number": 11,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5458.704370727541,
+        "max_drawdown": 5.953227703730135e-05,
+        "sharpe_ratio": 5.006281247793459
+    },
+    {
+        "trial_number": 13,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5474.020278167725,
+        "max_drawdown": 5.945833176834446e-05,
+        "sharpe_ratio": 4.923504857762707
+    },
+    {
+        "trial_number": 14,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4320.225313034059,
+        "max_drawdown": 0.0007454593245992474,
+        "sharpe_ratio": 3.0096786652249965
+    },
+    {
+        "trial_number": 15,
+        "selected_features": [
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4336.492741012575,
+        "max_drawdown": 0.0007441502167181366,
+        "sharpe_ratio": 3.035922735413186
+    },
+    {
+        "trial_number": 16,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4292.398100051882,
+        "max_drawdown": 0.0007477585779190444,
+        "sharpe_ratio": 2.836539559770176
+    },
+    {
+        "trial_number": 17,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4334.812614898683,
+        "max_drawdown": 0.0007441046434114771,
+        "sharpe_ratio": 3.0863646220302954
+    },
+    {
+        "trial_number": 18,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 5551.468883666994,
+        "max_drawdown": 5.9150912919058364e-05,
+        "sharpe_ratio": 4.837397144579124
+    },
+    {
+        "trial_number": 19,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5516.3878099060075,
+        "max_drawdown": 0.00048033227231464347,
+        "sharpe_ratio": 4.846493333568361
+    },
+    {
+        "trial_number": 20,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "ATR"
+        ],
+        "profit": 4434.217696533205,
+        "max_drawdown": 0.0007387169776463216,
+        "sharpe_ratio": 3.089159469402955
+    },
+    {
+        "trial_number": 21,
+        "selected_features": [
+            "SMA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4347.76664604187,
+        "max_drawdown": 0.0007444881097535088,
+        "sharpe_ratio": 3.0446984971312334
+    },
+    {
+        "trial_number": 22,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "ATR"
+        ],
+        "profit": 4461.62073249817,
+        "max_drawdown": 0.000736733153279473,
+        "sharpe_ratio": 3.1942838975884524
+    },
+    {
+        "trial_number": 23,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4375.003462066651,
+        "max_drawdown": 0.0007424561762677819,
+        "sharpe_ratio": 3.1688234889599154
+    },
+    {
+        "trial_number": 24,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5474.790116882325,
+        "max_drawdown": 5.945483450473268e-05,
+        "sharpe_ratio": 5.0227723528436945
+    },
+    {
+        "trial_number": 25,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN"
+        ],
+        "profit": 5528.288833160401,
+        "max_drawdown": 5.924259535679624e-05,
+        "sharpe_ratio": 4.853892778517072
+    },
+    {
+        "trial_number": 26,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4213.375623550416,
+        "max_drawdown": 0.0007505962019907416,
+        "sharpe_ratio": 2.8759637313726087
+    },
+    {
+        "trial_number": 28,
+        "selected_features": [
+            "BBANDS",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4424.982012481691,
+        "max_drawdown": 0.000739897679313115,
+        "sharpe_ratio": 3.0682531842064513
+    },
+    {
+        "trial_number": 29,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5496.399106292725,
+        "max_drawdown": 0.0004803322723145677,
+        "sharpe_ratio": 4.911715067659957
+    },
+    {
+        "trial_number": 30,
+        "selected_features": [
+            "BBANDS",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4365.652105255128,
+        "max_drawdown": 0.000743260928140614,
+        "sharpe_ratio": 3.1734354751083336
+    },
+    {
+        "trial_number": 31,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5522.232347717286,
+        "max_drawdown": 5.9268002052577505e-05,
+        "sharpe_ratio": 4.880073054771952
+    },
+    {
+        "trial_number": 33,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5484.726810913087,
+        "max_drawdown": 5.941678861346135e-05,
+        "sharpe_ratio": 5.0158247353995264
+    },
+    {
+        "trial_number": 32,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "ATR"
+        ],
+        "profit": 5475.299721679689,
+        "max_drawdown": 5.945272598171748e-05,
+        "sharpe_ratio": 4.9020140034304065
+    },
+    {
+        "trial_number": 34,
+        "selected_features": [
+            "BBANDS",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4369.810971069337,
+        "max_drawdown": 0.0007419637810130016,
+        "sharpe_ratio": 2.9360369361776493
+    },
+    {
+        "trial_number": 35,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5448.456623687745,
+        "max_drawdown": 5.950620598444338e-05,
+        "sharpe_ratio": 4.969662691299684
+    },
+    {
+        "trial_number": 36,
+        "selected_features": [
+            "SMA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4310.006102676393,
+        "max_drawdown": 0.0007449362623875841,
+        "sharpe_ratio": 3.021788918732989
+    },
+    {
+        "trial_number": 37,
+        "selected_features": [
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5537.741354064942,
+        "max_drawdown": 5.9215120352937924e-05,
+        "sharpe_ratio": 4.838617039547322
+    },
+    {
+        "trial_number": 38,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5462.626305999757,
+        "max_drawdown": 5.945091915992002e-05,
+        "sharpe_ratio": 5.035131243287611
+    },
+    {
+        "trial_number": 39,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5544.96812942505,
+        "max_drawdown": 5.914039777822533e-05,
+        "sharpe_ratio": 4.867605064858835
+    },
+    {
+        "trial_number": 40,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA"
+        ],
+        "profit": 4341.526761169435,
+        "max_drawdown": 0.0007442936353399694,
+        "sharpe_ratio": 3.0314286179380994
+    },
+    {
+        "trial_number": 41,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5474.395106506348,
+        "max_drawdown": 5.945757637621628e-05,
+        "sharpe_ratio": 4.980823066416407
+    },
+    {
+        "trial_number": 42,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 5543.847713775636,
+        "max_drawdown": 0.00048033227231463176,
+        "sharpe_ratio": 4.825089839749163
+    },
+    {
+        "trial_number": 43,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4335.842668075563,
+        "max_drawdown": 0.0007432839243802294,
+        "sharpe_ratio": 3.1578039799111326
+    },
+    {
+        "trial_number": 44,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5477.6992489624035,
+        "max_drawdown": 8.013205401352435e-05,
+        "sharpe_ratio": 4.9353801031204085
+    },
+    {
+        "trial_number": 45,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4345.535639724732,
+        "max_drawdown": 0.0007432679707608189,
+        "sharpe_ratio": 3.1084203280964293
+    },
+    {
+        "trial_number": 48,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "MACD"
+        ],
+        "profit": 4373.939569244386,
+        "max_drawdown": 0.0007414637145652542,
+        "sharpe_ratio": 3.0917171928371996
+    },
+    {
+        "trial_number": 49,
+        "selected_features": [
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4327.772744140626,
+        "max_drawdown": 0.0007453872525931031,
+        "sharpe_ratio": 2.9710858660274884
+    },
+    {
+        "trial_number": 0,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4310.598881988527,
+        "max_drawdown": 0.0007453226501837078,
+        "sharpe_ratio": 3.0701220117903274
+    },
+    {
+        "trial_number": 3,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "RETURN"
+        ],
+        "profit": 4357.1695261383065,
+        "max_drawdown": 0.0007435928529057163,
+        "sharpe_ratio": 3.069638711150924
+    },
+    {
+        "trial_number": 1,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5469.794018096925,
+        "max_drawdown": 0.0004803322723145909,
+        "sharpe_ratio": 4.940401527647538
+    },
+    {
+        "trial_number": 2,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5540.0475379943855,
+        "max_drawdown": 1.4743763121057012e-05,
+        "sharpe_ratio": 4.821956810789665
+    },
+    {
+        "trial_number": 4,
+        "selected_features": [
+            "RSI",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4338.231769409181,
+        "max_drawdown": 0.0007433269532967799,
+        "sharpe_ratio": 3.114591610661228
+    },
+    {
+        "trial_number": 5,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "MACD"
+        ],
+        "profit": 4419.581653060914,
+        "max_drawdown": 0.0007401663808949516,
+        "sharpe_ratio": 3.2047605399028543
+    },
+    {
+        "trial_number": 7,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "MACD"
+        ],
+        "profit": 5466.732725982667,
+        "max_drawdown": 1.4852422359041534e-05,
+        "sharpe_ratio": 5.0215235268059555
+    },
+    {
+        "trial_number": 6,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4330.84444442749,
+        "max_drawdown": 0.0007592516809649341,
+        "sharpe_ratio": 2.8586607982983576
+    },
+    {
+        "trial_number": 8,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "DONCHIAN"
+        ],
+        "profit": 5469.6530220031755,
+        "max_drawdown": 5.946921805283756e-05,
+        "sharpe_ratio": 4.898194033713278
+    },
+    {
+        "trial_number": 9,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA"
+        ],
+        "profit": 4342.3171485137955,
+        "max_drawdown": 0.0007442664456738212,
+        "sharpe_ratio": 3.1408295404429194
+    },
+    {
+        "trial_number": 11,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4345.8361958313,
+        "max_drawdown": 0.000743501425973846,
+        "sharpe_ratio": 3.1428493164899094
+    },
+    {
+        "trial_number": 12,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "ATR"
+        ],
+        "profit": 4365.059152221682,
+        "max_drawdown": 0.0007435463760503664,
+        "sharpe_ratio": 2.9820535317081447
+    },
+    {
+        "trial_number": 14,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5512.287375335694,
+        "max_drawdown": 5.929602564207799e-05,
+        "sharpe_ratio": 4.813162244686633
+    },
+    {
+        "trial_number": 15,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4355.317298889161,
+        "max_drawdown": 0.0007429085059073463,
+        "sharpe_ratio": 3.065271727453732
+    },
+    {
+        "trial_number": 17,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "DONCHIAN"
+        ],
+        "profit": 4473.520537490846,
+        "max_drawdown": 0.0007367191342032052,
+        "sharpe_ratio": 3.171277353174341
+    },
+    {
+        "trial_number": 18,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4347.755543823244,
+        "max_drawdown": 0.000742537006879271,
+        "sharpe_ratio": 3.1389186709466577
+    },
+    {
+        "trial_number": 19,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 4326.537181167604,
+        "max_drawdown": 0.0007448322899069609,
+        "sharpe_ratio": 3.028713995235736
+    },
+    {
+        "trial_number": 20,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 4325.29186279297,
+        "max_drawdown": 0.0007436040558848079,
+        "sharpe_ratio": 3.041807140253262
+    },
+    {
+        "trial_number": 21,
+        "selected_features": [
+            "RSI",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4391.818097839357,
+        "max_drawdown": 0.0007411128184306542,
+        "sharpe_ratio": 3.1908653880677016
+    },
+    {
+        "trial_number": 22,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA"
+        ],
+        "profit": 5515.988710784914,
+        "max_drawdown": 5.929371223211058e-05,
+        "sharpe_ratio": 4.816521439283191
+    },
+    {
+        "trial_number": 23,
+        "selected_features": [
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4313.049771270753,
+        "max_drawdown": 0.0007445342358361861,
+        "sharpe_ratio": 3.003526971079791
+    },
+    {
+        "trial_number": 25,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "ATR"
+        ],
+        "profit": 5537.97080947876,
+        "max_drawdown": 5.915762376677371e-05,
+        "sharpe_ratio": 4.817909653676166
+    },
+    {
+        "trial_number": 26,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "DONCHIAN"
+        ],
+        "profit": 5459.383928527834,
+        "max_drawdown": 5.9463728177329656e-05,
+        "sharpe_ratio": 4.99716585169093
+    },
+    {
+        "trial_number": 28,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "RETURN"
+        ],
+        "profit": 4365.741459960939,
+        "max_drawdown": 0.0007427949103561168,
+        "sharpe_ratio": 2.921127114195358
+    },
+    {
+        "trial_number": 29,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4360.627933120729,
+        "max_drawdown": 0.0007427061027934341,
+        "sharpe_ratio": 3.061801396830178
+    },
+    {
+        "trial_number": 30,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 4342.605066299439,
+        "max_drawdown": 0.0007443950203517407,
+        "sharpe_ratio": 3.048939322718709
+    },
+    {
+        "trial_number": 31,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4425.916588745118,
+        "max_drawdown": 0.0007404631572447456,
+        "sharpe_ratio": 3.0886578570662335
+    },
+    {
+        "trial_number": 32,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4416.740905380249,
+        "max_drawdown": 0.0007387331690075421,
+        "sharpe_ratio": 3.132795658367728
+    },
+    {
+        "trial_number": 33,
+        "selected_features": [
+            "SMA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4349.986025161746,
+        "max_drawdown": 0.0007420793170981963,
+        "sharpe_ratio": 3.0625196826900996
+    },
+    {
+        "trial_number": 34,
+        "selected_features": [
+            "VOLA",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5467.307536315919,
+        "max_drawdown": 5.948476386234793e-05,
+        "sharpe_ratio": 5.04449781007908
+    },
+    {
+        "trial_number": 36,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5456.814551239015,
+        "max_drawdown": 5.9493287758119336e-05,
+        "sharpe_ratio": 5.002426650722601
+    },
+    {
+        "trial_number": 37,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4266.639403305055,
+        "max_drawdown": 0.0007474394222868662,
+        "sharpe_ratio": 3.0534422420785754
+    },
+    {
+        "trial_number": 38,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "RETURN"
+        ],
+        "profit": 5481.391519317627,
+        "max_drawdown": 5.9418454412002864e-05,
+        "sharpe_ratio": 4.978655936322358
+    },
+    {
+        "trial_number": 39,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 5475.323972473146,
+        "max_drawdown": 5.9453890594270804e-05,
+        "sharpe_ratio": 5.005906722371965
+    },
+    {
+        "trial_number": 40,
+        "selected_features": [
+            "RSI",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4363.143063735964,
+        "max_drawdown": 0.0007429173798985367,
+        "sharpe_ratio": 2.955823930318378
+    },
+    {
+        "trial_number": 41,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 4393.12673980713,
+        "max_drawdown": 0.0007410097723623991,
+        "sharpe_ratio": 3.020413758431702
+    },
+    {
+        "trial_number": 42,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4357.537856292725,
+        "max_drawdown": 0.0007424180319807469,
+        "sharpe_ratio": 2.917765583497002
+    },
+    {
+        "trial_number": 45,
+        "selected_features": [
+            "BBANDS",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5487.716327362061,
+        "max_drawdown": 8.003474036317241e-05,
+        "sharpe_ratio": 4.880417635631384
+    },
+    {
+        "trial_number": 46,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 4400.675340881349,
+        "max_drawdown": 0.0007407601971571901,
+        "sharpe_ratio": 3.2182088565314393
+    },
+    {
+        "trial_number": 47,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4397.662885742189,
+        "max_drawdown": 0.0007414477853519231,
+        "sharpe_ratio": 3.028886518928547
+    },
+    {
+        "trial_number": 48,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4383.02160270691,
+        "max_drawdown": 0.0007418593425082445,
+        "sharpe_ratio": 3.0332720641339024
+    },
+    {
+        "trial_number": 49,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "DONCHIAN"
+        ],
+        "profit": 5472.18986557007,
+        "max_drawdown": 5.942823523861597e-05,
+        "sharpe_ratio": 4.952801527820568
+    },
+    {
+        "trial_number": 0,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4286.672631073,
+        "max_drawdown": 0.000747477345553326,
+        "sharpe_ratio": 3.177368266147973
+    },
+    {
+        "trial_number": 1,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4195.052218627931,
+        "max_drawdown": 0.0007525006005730698,
+        "sharpe_ratio": 3.559978448713075
+    },
+    {
+        "trial_number": 2,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4255.976078491212,
+        "max_drawdown": 0.0007507785833356662,
+        "sharpe_ratio": 3.339941996198328
+    },
+    {
+        "trial_number": 3,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "DONCHIAN"
+        ],
+        "profit": 5233.609977111817,
+        "max_drawdown": 6.0371621097925866e-05,
+        "sharpe_ratio": 5.467953536496426
+    },
+    {
+        "trial_number": 4,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5261.119235839845,
+        "max_drawdown": 6.0309323842082567e-05,
+        "sharpe_ratio": 5.386439085333002
+    },
+    {
+        "trial_number": 5,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4168.309111480714,
+        "max_drawdown": 0.0007532748328504013,
+        "sharpe_ratio": 3.454221046961458
+    },
+    {
+        "trial_number": 6,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN"
+        ],
+        "profit": 4230.691058654786,
+        "max_drawdown": 0.0007493215068758637,
+        "sharpe_ratio": 3.0761245279376697
+    },
+    {
+        "trial_number": 7,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5160.762039031983,
+        "max_drawdown": 6.073744515729719e-05,
+        "sharpe_ratio": 5.602726897417413
+    },
+    {
+        "trial_number": 8,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5456.783998565676,
+        "max_drawdown": 5.9526030411497294e-05,
+        "sharpe_ratio": 5.022309650794671
+    },
+    {
+        "trial_number": 10,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "DONCHIAN"
+        ],
+        "profit": 4238.769671707155,
+        "max_drawdown": 0.0007508135380052087,
+        "sharpe_ratio": 3.4415138088536237
+    },
+    {
+        "trial_number": 13,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "MACD"
+        ],
+        "profit": 4227.4507370758065,
+        "max_drawdown": 0.0007514301417370073,
+        "sharpe_ratio": 3.2101837212892814
+    },
+    {
+        "trial_number": 14,
+        "selected_features": [
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5389.148073120117,
+        "max_drawdown": 5.979497450609555e-05,
+        "sharpe_ratio": 5.182171566833412
+    },
+    {
+        "trial_number": 15,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA"
+        ],
+        "profit": 5237.35968536377,
+        "max_drawdown": 6.040568680296802e-05,
+        "sharpe_ratio": 5.4793300817629005
+    },
+    {
+        "trial_number": 16,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5294.224114379884,
+        "max_drawdown": 6.017505067822277e-05,
+        "sharpe_ratio": 5.290112649729946
+    },
+    {
+        "trial_number": 17,
+        "selected_features": [
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4252.121809158327,
+        "max_drawdown": 0.0007489195416750109,
+        "sharpe_ratio": 3.0533286747754644
+    },
+    {
+        "trial_number": 18,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5338.439751739504,
+        "max_drawdown": 0.00011678386186648761,
+        "sharpe_ratio": 5.223362966518746
+    },
+    {
+        "trial_number": 19,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5212.581993255616,
+        "max_drawdown": 6.05094378738555e-05,
+        "sharpe_ratio": 5.508598753677186
+    },
+    {
+        "trial_number": 20,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "ATR"
+        ],
+        "profit": 5170.603964385987,
+        "max_drawdown": 6.0678613532882035e-05,
+        "sharpe_ratio": 5.649857567724627
+    },
+    {
+        "trial_number": 21,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4174.643892135622,
+        "max_drawdown": 0.0007534235104595957,
+        "sharpe_ratio": 3.012081495105038
+    },
+    {
+        "trial_number": 22,
+        "selected_features": [
+            "BBANDS",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4153.648122711182,
+        "max_drawdown": 0.0007541358971349248,
+        "sharpe_ratio": 3.4824594976829437
+    },
+    {
+        "trial_number": 23,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5342.423731231691,
+        "max_drawdown": 5.9979820904157635e-05,
+        "sharpe_ratio": 5.27260895098251
+    },
+    {
+        "trial_number": 24,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4172.356959762575,
+        "max_drawdown": 0.0007537313129879194,
+        "sharpe_ratio": 3.0949553503887466
+    },
+    {
+        "trial_number": 25,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4240.522481079103,
+        "max_drawdown": 0.0007504307680542509,
+        "sharpe_ratio": 3.8836784216569495
+    },
+    {
+        "trial_number": 26,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4081.0366780090344,
+        "max_drawdown": 0.0007592032412167374,
+        "sharpe_ratio": 3.59746053997703
+    },
+    {
+        "trial_number": 27,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "MACD"
+        ],
+        "profit": 5451.62747039795,
+        "max_drawdown": 5.9536036890044825e-05,
+        "sharpe_ratio": 5.001957954328932
+    },
+    {
+        "trial_number": 28,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5236.46297897339,
+        "max_drawdown": 6.0411885174730255e-05,
+        "sharpe_ratio": 5.460317823555974
+    },
+    {
+        "trial_number": 30,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4237.503079528809,
+        "max_drawdown": 0.0007499488836812229,
+        "sharpe_ratio": 3.4833241147449434
+    },
+    {
+        "trial_number": 31,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "DONCHIAN"
+        ],
+        "profit": 4180.260551757813,
+        "max_drawdown": 0.0007518455060013047,
+        "sharpe_ratio": 3.2926846687994784
+    },
+    {
+        "trial_number": 32,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4186.65009475708,
+        "max_drawdown": 0.0007526962444335141,
+        "sharpe_ratio": 3.7017509166165743
+    },
+    {
+        "trial_number": 34,
+        "selected_features": [
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN"
+        ],
+        "profit": 5287.269367523195,
+        "max_drawdown": 1.5100869785296244e-05,
+        "sharpe_ratio": 5.328074456206771
+    },
+    {
+        "trial_number": 35,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4112.425126800539,
+        "max_drawdown": 0.0007556319567397522,
+        "sharpe_ratio": 3.461359061217532
+    },
+    {
+        "trial_number": 36,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5277.389145355225,
+        "max_drawdown": 6.0244947933934386e-05,
+        "sharpe_ratio": 5.300362963448217
+    },
+    {
+        "trial_number": 37,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "MACD"
+        ],
+        "profit": 4311.627414703371,
+        "max_drawdown": 0.0007435819592385722,
+        "sharpe_ratio": 3.134366225599631
+    },
+    {
+        "trial_number": 38,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5375.9096081542975,
+        "max_drawdown": 5.980863425175929e-05,
+        "sharpe_ratio": 5.164314191157836
+    },
+    {
+        "trial_number": 40,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4241.61482826233,
+        "max_drawdown": 0.0007495998577542072,
+        "sharpe_ratio": 3.462903633081909
+    },
+    {
+        "trial_number": 41,
+        "selected_features": [
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4101.438165130616,
+        "max_drawdown": 0.0007567946497292486,
+        "sharpe_ratio": 3.4872551611964884
+    },
+    {
+        "trial_number": 42,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA"
+        ],
+        "profit": 5420.215028381349,
+        "max_drawdown": 1.4516112523688825e-05,
+        "sharpe_ratio": 5.1115335568448055
+    },
+    {
+        "trial_number": 43,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "MACD"
+        ],
+        "profit": 4331.188133926393,
+        "max_drawdown": 0.0007446086007102173,
+        "sharpe_ratio": 3.352578499453723
+    },
+    {
+        "trial_number": 44,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN"
+        ],
+        "profit": 5359.201507720949,
+        "max_drawdown": 5.987621899350447e-05,
+        "sharpe_ratio": 5.186058484732146
+    },
+    {
+        "trial_number": 45,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4036.253295593263,
+        "max_drawdown": 0.0007611378423082915,
+        "sharpe_ratio": 3.574182012823961
+    },
+    {
+        "trial_number": 46,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5441.208608703614,
+        "max_drawdown": 5.9588953964515536e-05,
+        "sharpe_ratio": 5.041917370467763
+    },
+    {
+        "trial_number": 47,
+        "selected_features": [
+            "TEMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4144.928344573975,
+        "max_drawdown": 0.0007543314319683882,
+        "sharpe_ratio": 3.6731424225519174
+    },
+    {
+        "trial_number": 48,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4209.861044158937,
+        "max_drawdown": 0.0007510136348100478,
+        "sharpe_ratio": 3.6237253305327113
+    },
+    {
+        "trial_number": 49,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4170.180695648194,
+        "max_drawdown": 0.0007518848967529128,
+        "sharpe_ratio": 3.8397022395544904
+    },
+    {
+        "trial_number": 0,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI"
+        ],
+        "profit": 5372.814060363771,
+        "max_drawdown": 5.987196443722385e-05,
+        "sharpe_ratio": 5.284474129004975
+    },
+    {
+        "trial_number": 1,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4205.6617720031745,
+        "max_drawdown": 0.0007507555858660179,
+        "sharpe_ratio": 3.792218635382157
+    },
+    {
+        "trial_number": 2,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4111.949082031252,
+        "max_drawdown": 0.0007569592077166637,
+        "sharpe_ratio": 3.501048995917245
+    },
+    {
+        "trial_number": 3,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4214.002367095949,
+        "max_drawdown": 0.0007519164399650845,
+        "sharpe_ratio": 3.547185587195038
+    },
+    {
+        "trial_number": 4,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "DONCHIAN"
+        ],
+        "profit": 4213.611214904786,
+        "max_drawdown": 0.0007505817346840539,
+        "sharpe_ratio": 3.6019765688422027
+    },
+    {
+        "trial_number": 5,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5379.630493621828,
+        "max_drawdown": 0.0004803322723146431,
+        "sharpe_ratio": 5.201947663079375
+    },
+    {
+        "trial_number": 7,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4288.877653808595,
+        "max_drawdown": 0.0007459345630648173,
+        "sharpe_ratio": 3.437426052616877
+    },
+    {
+        "trial_number": 8,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5187.01250946045,
+        "max_drawdown": 6.0555895597487385e-05,
+        "sharpe_ratio": 5.5276213730718275
+    },
+    {
+        "trial_number": 10,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4160.5107939910895,
+        "max_drawdown": 0.0007529843438230677,
+        "sharpe_ratio": 3.3284248158626526
+    },
+    {
+        "trial_number": 11,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5391.842322692872,
+        "max_drawdown": 5.9798345184121994e-05,
+        "sharpe_ratio": 5.199811487413338
+    },
+    {
+        "trial_number": 12,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "RETURN"
+        ],
+        "profit": 5447.767654724123,
+        "max_drawdown": 5.9575702492532134e-05,
+        "sharpe_ratio": 5.121889179136149
+    },
+    {
+        "trial_number": 13,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "DONCHIAN"
+        ],
+        "profit": 5367.499112701417,
+        "max_drawdown": 5.988217450706738e-05,
+        "sharpe_ratio": 5.216751678012876
+    },
+    {
+        "trial_number": 14,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "DONCHIAN"
+        ],
+        "profit": 5297.433202819825,
+        "max_drawdown": 6.0161240659529816e-05,
+        "sharpe_ratio": 5.301164349206856
+    },
+    {
+        "trial_number": 16,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4110.467037963868,
+        "max_drawdown": 0.0007562490419033658,
+        "sharpe_ratio": 3.6579894011780723
+    },
+    {
+        "trial_number": 17,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "ATR"
+        ],
+        "profit": 5203.123639984131,
+        "max_drawdown": 6.056208675087785e-05,
+        "sharpe_ratio": 5.480545199091046
+    },
+    {
+        "trial_number": 18,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4256.428709869387,
+        "max_drawdown": 0.0007494462679311753,
+        "sharpe_ratio": 3.5642127077109595
+    },
+    {
+        "trial_number": 19,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 5297.445587921144,
+        "max_drawdown": 6.016409380537564e-05,
+        "sharpe_ratio": 5.283148966712533
+    },
+    {
+        "trial_number": 20,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5352.118135833741,
+        "max_drawdown": 5.994337492150867e-05,
+        "sharpe_ratio": 5.263330028245476
+    },
+    {
+        "trial_number": 22,
+        "selected_features": [
+            "TEMA",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5237.182253723146,
+        "max_drawdown": 1.5172597843235256e-05,
+        "sharpe_ratio": 5.4844232064765635
+    },
+    {
+        "trial_number": 23,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4036.957863922121,
+        "max_drawdown": 0.0007617196619473729,
+        "sharpe_ratio": 3.5183276486267765
+    },
+    {
+        "trial_number": 24,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "RETURN"
+        ],
+        "profit": 4253.531309509279,
+        "max_drawdown": 0.0007490515357733697,
+        "sharpe_ratio": 3.288079598901881
+    },
+    {
+        "trial_number": 25,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5260.038652496339,
+        "max_drawdown": 8.153499837696813e-05,
+        "sharpe_ratio": 5.382303705601853
+    },
+    {
+        "trial_number": 26,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5291.823747406006,
+        "max_drawdown": 6.0186863287051385e-05,
+        "sharpe_ratio": 5.309499033010626
+    },
+    {
+        "trial_number": 27,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5218.044931793214,
+        "max_drawdown": 1.4727450836075034e-05,
+        "sharpe_ratio": 5.558946767479581
+    },
+    {
+        "trial_number": 28,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5353.795445861817,
+        "max_drawdown": 0.00010526308532682499,
+        "sharpe_ratio": 5.2227318952058805
+    },
+    {
+        "trial_number": 29,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5373.797985687257,
+        "max_drawdown": 5.985477255764474e-05,
+        "sharpe_ratio": 5.220725259151039
+    },
+    {
+        "trial_number": 30,
+        "selected_features": [
+            "SMA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5405.106693572999,
+        "max_drawdown": 5.973135961080899e-05,
+        "sharpe_ratio": 5.17145742265344
+    },
+    {
+        "trial_number": 31,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4189.688861846926,
+        "max_drawdown": 0.000751363135910009,
+        "sharpe_ratio": 3.530711925368116
+    },
+    {
+        "trial_number": 32,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5182.111929473878,
+        "max_drawdown": 6.064783779190706e-05,
+        "sharpe_ratio": 5.639820128896973
+    },
+    {
+        "trial_number": 34,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4253.1236764526375,
+        "max_drawdown": 0.0007489457632462336,
+        "sharpe_ratio": 3.635539873637506
+    },
+    {
+        "trial_number": 35,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4231.055137634278,
+        "max_drawdown": 0.0007506256860213379,
+        "sharpe_ratio": 3.460382781133844
+    },
+    {
+        "trial_number": 36,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5188.208884735108,
+        "max_drawdown": 6.060705142772465e-05,
+        "sharpe_ratio": 5.587457847851827
+    },
+    {
+        "trial_number": 37,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA"
+        ],
+        "profit": 5391.682571716309,
+        "max_drawdown": 5.978195119460508e-05,
+        "sharpe_ratio": 5.103447426586127
+    },
+    {
+        "trial_number": 38,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4219.811956634522,
+        "max_drawdown": 0.0007505948127819058,
+        "sharpe_ratio": 3.278636290861755
+    },
+    {
+        "trial_number": 39,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5305.350905914307,
+        "max_drawdown": 6.013175207517028e-05,
+        "sharpe_ratio": 5.317715026080786
+    },
+    {
+        "trial_number": 40,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4127.0840168762215,
+        "max_drawdown": 0.0007546977924698908,
+        "sharpe_ratio": 3.298213791679042
+    },
+    {
+        "trial_number": 41,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4161.0804000854505,
+        "max_drawdown": 0.0007539477709972985,
+        "sharpe_ratio": 3.837516303218836
+    },
+    {
+        "trial_number": 42,
+        "selected_features": [
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5255.493521423341,
+        "max_drawdown": 6.0335101190290485e-05,
+        "sharpe_ratio": 5.418863000794896
+    },
+    {
+        "trial_number": 43,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "ATR"
+        ],
+        "profit": 4141.243336486819,
+        "max_drawdown": 0.0007553214881370251,
+        "sharpe_ratio": 3.500640380314537
+    },
+    {
+        "trial_number": 44,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4292.333657989503,
+        "max_drawdown": 0.000745999912714167,
+        "sharpe_ratio": 3.3805923168170873
+    },
+    {
+        "trial_number": 45,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4215.688239212037,
+        "max_drawdown": 0.0007513314283310527,
+        "sharpe_ratio": 3.3873246243242408
+    },
+    {
+        "trial_number": 46,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5234.656311035157,
+        "max_drawdown": 6.041705836504001e-05,
+        "sharpe_ratio": 5.494381450120737
+    },
+    {
+        "trial_number": 47,
+        "selected_features": [
+            "TEMA",
+            "VOLA",
+            "MACD"
+        ],
+        "profit": 4118.964841766358,
+        "max_drawdown": 0.0007554098805024442,
+        "sharpe_ratio": 3.1342406836400887
+    },
+    {
+        "trial_number": 48,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "MACD"
+        ],
+        "profit": 4106.602904968263,
+        "max_drawdown": 0.0007562504512339501,
+        "sharpe_ratio": 3.156930612368897
+    },
+    {
+        "trial_number": 49,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "MACD"
+        ],
+        "profit": 5444.940395660402,
+        "max_drawdown": 5.958360064655531e-05,
+        "sharpe_ratio": 5.103746004536151
+    },
+    {
+        "trial_number": 0,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5220.526267089845,
+        "max_drawdown": 6.046449366841952e-05,
+        "sharpe_ratio": 5.4988671870153
+    },
+    {
+        "trial_number": 1,
+        "selected_features": [
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4135.788676452638,
+        "max_drawdown": 0.0007554767301384273,
+        "sharpe_ratio": 3.640711416342692
+    },
+    {
+        "trial_number": 2,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4117.711395111085,
+        "max_drawdown": 0.000755679550289565,
+        "sharpe_ratio": 3.4239178302757107
+    },
+    {
+        "trial_number": 3,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "ATR"
+        ],
+        "profit": 5457.875291442873,
+        "max_drawdown": 5.9494283072986895e-05,
+        "sharpe_ratio": 5.006807126232652
+    },
+    {
+        "trial_number": 4,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4208.652264404298,
+        "max_drawdown": 0.0007515709304216875,
+        "sharpe_ratio": 3.673272382672331
+    },
+    {
+        "trial_number": 5,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5356.539891204835,
+        "max_drawdown": 5.993798409173803e-05,
+        "sharpe_ratio": 5.267644247330643
+    },
+    {
+        "trial_number": 6,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5337.291654663088,
+        "max_drawdown": 6.000128315700594e-05,
+        "sharpe_ratio": 5.281736134390726
+    },
+    {
+        "trial_number": 7,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "ATR"
+        ],
+        "profit": 4237.568935317995,
+        "max_drawdown": 0.0007491660321725517,
+        "sharpe_ratio": 3.439530717416534
+    },
+    {
+        "trial_number": 8,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4199.455208892823,
+        "max_drawdown": 0.0007515958771680787,
+        "sharpe_ratio": 3.614477817031643
+    },
+    {
+        "trial_number": 9,
+        "selected_features": [
+            "BBANDS",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5343.576838684083,
+        "max_drawdown": 5.999099611603213e-05,
+        "sharpe_ratio": 5.266605458085759
+    },
+    {
+        "trial_number": 10,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD"
+        ],
+        "profit": 4227.476123199465,
+        "max_drawdown": 0.0007512789037823847,
+        "sharpe_ratio": 3.65942065217651
+    },
+    {
+        "trial_number": 11,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 5187.341860046388,
+        "max_drawdown": 6.058346323141554e-05,
+        "sharpe_ratio": 5.565124769680091
+    },
+    {
+        "trial_number": 13,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 4324.0164579010025,
+        "max_drawdown": 0.0007449122820585093,
+        "sharpe_ratio": 3.4913507573452143
+    },
+    {
+        "trial_number": 14,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "ATR"
+        ],
+        "profit": 4146.800951690674,
+        "max_drawdown": 0.0007552277703264517,
+        "sharpe_ratio": 3.5997937384856193
+    },
+    {
+        "trial_number": 15,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 5184.062211456299,
+        "max_drawdown": 6.062635342961203e-05,
+        "sharpe_ratio": 5.535142674357294
+    },
+    {
+        "trial_number": 16,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "DONCHIAN"
+        ],
+        "profit": 5397.241961669923,
+        "max_drawdown": 5.972264596771794e-05,
+        "sharpe_ratio": 5.183617072981474
+    },
+    {
+        "trial_number": 17,
+        "selected_features": [
+            "TEMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5464.824444274904,
+        "max_drawdown": 1.8998694449468867e-05,
+        "sharpe_ratio": 5.073204782317111
+    },
+    {
+        "trial_number": 18,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5396.679751129152,
+        "max_drawdown": 5.976418401438128e-05,
+        "sharpe_ratio": 5.184320418832658
+    },
+    {
+        "trial_number": 19,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 4164.706590423586,
+        "max_drawdown": 0.0007534209074822178,
+        "sharpe_ratio": 3.6186629855499803
+    },
+    {
+        "trial_number": 20,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4183.354486389162,
+        "max_drawdown": 0.0007536404775802375,
+        "sharpe_ratio": 3.6724125823243283
+    },
+    {
+        "trial_number": 21,
+        "selected_features": [
+            "BBANDS",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4185.841386718752,
+        "max_drawdown": 0.0007534948034922265,
+        "sharpe_ratio": 3.7343610790464314
+    },
+    {
+        "trial_number": 22,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5258.593926696778,
+        "max_drawdown": 6.032007619176178e-05,
+        "sharpe_ratio": 5.4565795909077615
+    },
+    {
+        "trial_number": 23,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 4316.897255325319,
+        "max_drawdown": 0.0007450633821987879,
+        "sharpe_ratio": 3.130268238697704
+    },
+    {
+        "trial_number": 24,
+        "selected_features": [
+            "TEMA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5206.679495391847,
+        "max_drawdown": 6.053310802205472e-05,
+        "sharpe_ratio": 5.5005672390512155
+    },
+    {
+        "trial_number": 25,
+        "selected_features": [
+            "SMA",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5314.388538513183,
+        "max_drawdown": 6.009145708158511e-05,
+        "sharpe_ratio": 5.315582365405334
+    },
+    {
+        "trial_number": 26,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4214.849631195069,
+        "max_drawdown": 0.0007504183513735694,
+        "sharpe_ratio": 3.484105819002986
+    },
+    {
+        "trial_number": 27,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN"
+        ],
+        "profit": 4266.119060592653,
+        "max_drawdown": 0.0007473707501616577,
+        "sharpe_ratio": 3.47014558098734
+    },
+    {
+        "trial_number": 28,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4183.816010742188,
+        "max_drawdown": 0.000752423637746096,
+        "sharpe_ratio": 3.6456500585068063
+    },
+    {
+        "trial_number": 29,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "ATR"
+        ],
+        "profit": 4313.649019088746,
+        "max_drawdown": 0.0007453021664239901,
+        "sharpe_ratio": 3.259851277510847
+    },
+    {
+        "trial_number": 30,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4197.9702014160175,
+        "max_drawdown": 0.0007519776746176752,
+        "sharpe_ratio": 3.6291631153014268
+    },
+    {
+        "trial_number": 31,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5274.938026275636,
+        "max_drawdown": 1.4670548474650419e-05,
+        "sharpe_ratio": 5.362287569524052
+    },
+    {
+        "trial_number": 32,
+        "selected_features": [
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5243.717051696778,
+        "max_drawdown": 6.0380121605323225e-05,
+        "sharpe_ratio": 5.493554364635671
+    },
+    {
+        "trial_number": 33,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5245.548957977295,
+        "max_drawdown": 6.037314645701013e-05,
+        "sharpe_ratio": 5.438875210581361
+    },
+    {
+        "trial_number": 34,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "VOLA",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5414.088463439943,
+        "max_drawdown": 5.970697166301932e-05,
+        "sharpe_ratio": 5.079665324870163
+    },
+    {
+        "trial_number": 35,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 4172.967795867921,
+        "max_drawdown": 0.0007524386416232508,
+        "sharpe_ratio": 3.0665306547833264
+    },
+    {
+        "trial_number": 36,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5331.462224884033,
+        "max_drawdown": 6.0040121394557466e-05,
+        "sharpe_ratio": 5.251461822012408
+    },
+    {
+        "trial_number": 37,
+        "selected_features": [
+            "SMA",
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5275.730417022705,
+        "max_drawdown": 6.0265869273288564e-05,
+        "sharpe_ratio": 5.299783148842498
+    },
+    {
+        "trial_number": 38,
+        "selected_features": [
+            "BBANDS",
+            "RSI",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 5407.642370300294,
+        "max_drawdown": 5.972172837915318e-05,
+        "sharpe_ratio": 5.19148369488453
+    },
+    {
+        "trial_number": 39,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5321.456458587647,
+        "max_drawdown": 0.00048033227231459306,
+        "sharpe_ratio": 5.223584903677038
+    },
+    {
+        "trial_number": 40,
+        "selected_features": [
+            "SMA",
+            "RSI",
+            "MACD",
+            "DONCHIAN",
+            "ATR"
+        ],
+        "profit": 4168.403671875001,
+        "max_drawdown": 0.0007541666137779362,
+        "sharpe_ratio": 3.474822612265849
+    },
+    {
+        "trial_number": 41,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "ATR"
+        ],
+        "profit": 5403.62375946045,
+        "max_drawdown": 6.9696318519349945e-06,
+        "sharpe_ratio": 5.173655310391767
+    },
+    {
+        "trial_number": 42,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "RSI",
+            "VOLA"
+        ],
+        "profit": 5456.877310485841,
+        "max_drawdown": 5.9498230763302976e-05,
+        "sharpe_ratio": 5.018389915227929
+    },
+    {
+        "trial_number": 43,
+        "selected_features": [
+            "VOLA",
+            "MACD",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 5284.287810058595,
+        "max_drawdown": 6.021528434596006e-05,
+        "sharpe_ratio": 5.354927379807861
+    },
+    {
+        "trial_number": 44,
+        "selected_features": [
+            "SMA",
+            "MACD",
+            "DONCHIAN",
+            "RETURN"
+        ],
+        "profit": 5399.506647338868,
+        "max_drawdown": 5.9754888666448525e-05,
+        "sharpe_ratio": 5.184779149513404
+    },
+    {
+        "trial_number": 45,
+        "selected_features": [
+            "TEMA",
+            "RSI",
+            "VOLA",
+            "RETURN"
+        ],
+        "profit": 5318.201621704103,
+        "max_drawdown": 6.009153286639512e-05,
+        "sharpe_ratio": 5.272332946189875
+    },
+    {
+        "trial_number": 47,
+        "selected_features": [
+            "TEMA",
+            "BBANDS",
+            "MACD",
+            "DONCHIAN",
+            "RETURN",
+            "ATR"
+        ],
+        "profit": 4204.711612243653,
+        "max_drawdown": 0.0007519943575080494,
+        "sharpe_ratio": 3.5545645037193005
+    },
+    {
+        "trial_number": 49,
+        "selected_features": [
+            "SMA",
+            "BBANDS",
+            "RSI",
+            "VOLA",
+            "MACD",
+            "RETURN"
+        ],
+        "profit": 4152.840045471193,
+        "max_drawdown": 0.0007539899967852425,
+        "sharpe_ratio": 3.5838770931916106
+    }
+]

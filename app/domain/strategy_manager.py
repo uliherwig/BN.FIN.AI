@@ -152,7 +152,8 @@ class StrategyManager:
             cumulative = (1 + pnl).cumprod()
 
             # Metriken
-            ann_sharpe = DataUtils.sharpe_ratio(pnl)  # ann. Sharpe (approx)
+            ann_sharpe = DataUtils.calculate_sharpe(
+                pnl)  # ann. Sharpe (approx)
             mdd = DataUtils.max_drawdown(cumulative)
             hit_rate = ( (positions == 1) & (y_test.values > 0) ).sum() / max(1, (positions == 1).sum()) if (positions == 1).sum() > 0 else np.nan
 

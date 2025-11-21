@@ -21,4 +21,5 @@ scipy
 yfinance
 Ta-lib
 optuna
+plotly
 

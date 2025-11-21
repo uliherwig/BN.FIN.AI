@@ -47,6 +47,7 @@ class IndicatorEnum(Enum):
     VOLA = 'VOLA'  # Volatility Strategy
     ATR = 'ATR'  # Average True Range
     BBANDS = 'BBANDS'  # Bollinger Bands
+    ROC = 'ROC'  # Rate of Change Indicator
     
 
 class TaLibEnum(Enum):

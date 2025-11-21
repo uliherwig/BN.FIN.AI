@@ -13,17 +13,7 @@ class DataUtils:
 
     @staticmethod
     def extract_ticker_data(data, ticker):
-        """
-        Extracts data for a specific ticker and converts it to the required format.
-
-        Parameters:
-            data (pd.DataFrame): The input DataFrame with columns 
-                                 ['date', 'close', 'high', 'low', 'open', 'volume', 'tic', 'day'].
-            ticker (str): The ticker symbol to filter.
-
-        Returns:
-            pd.DataFrame: A DataFrame with columns ['Date', 'Open', 'High', 'Low', 'Close', 'Volume'].
-        """
+       
 
         # Filter data for the specified ticker
         ticker_data = data[data['tic'] == ticker]
@@ -42,30 +32,34 @@ class DataUtils:
         formatted_data = formatted_data[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]
 
         # Sort by Date and return the formatted DataFrame
-        return formatted_data.sort_values(by='Date')
-    
+        return formatted_data.sort_values(by='Date')    
 
-    
 
     @staticmethod
-    def sharpe_ratio(returns):   
-        
-        print(len(returns))
-        
-        # Risk-free rate (annualized, e.g., 0.02 for 2%)
-        risk_free_rate = 0.015  # Use 1 for simplicity in trading strategies
+    def calculate_sharpe(returns, risk_free_rate=0.015, trading_days=252):
 
-        sr = (np.mean(returns) /
-              np.std(returns)) * np.sqrt(252)
+        returns = np.array(returns, dtype=float)
 
-        # Calculate daily Sharpe ratio
-        mean_daily_return = returns.mean()
-        std_daily_returns = returns.std()
-        daily_sharpe = (mean_daily_return - risk_free_rate/252) / std_daily_returns
+        # Prüfen, ob Daten vorhanden sind
+        if len(returns) == 0:
+            raise ValueError("returns array is empty")
 
-        # Annualize the Sharpe ratio
-        annualized_sharpe = daily_sharpe * np.sqrt(252)
+        mean_daily = np.mean(returns)
+        std_daily = np.std(returns, ddof=1)
+        if std_daily == 0:
+            return 0.0  
+
+        # tägliche risikofreie Rendite
+        daily_rf = risk_free_rate / trading_days
+
+        # tägliche Sharpe-Ratio
+        daily_sharpe = (mean_daily - daily_rf) / std_daily
+
+        # annualisierte Sharpe-Ratio
+        annualized_sharpe = daily_sharpe * np.sqrt(trading_days)
+
         return annualized_sharpe
+
 
     @staticmethod
     def max_drawdown(daily_returns):

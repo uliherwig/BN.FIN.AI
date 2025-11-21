@@ -27,7 +27,7 @@ class MACDIndicator(BaseIndicator):
 
         params = MacdModel.model_validate_json(param_str)
         prices = df["Close"].to_numpy()
-        df['MACD'], df['MACD_signal'], df['MACD_histogram'] = ta.MACD(
+        df['MACD'], df['MACD_signal'], df['MACD_hist'] = ta.MACD(
             prices,
             fastperiod=params.MACD_fast,
             slowperiod=params.MACD_slow,

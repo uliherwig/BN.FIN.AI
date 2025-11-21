@@ -116,6 +116,23 @@ def load_stock_data_from_redis(asset: str, period: str = "1h") -> pd.DataFrame:
                     all_bars.append(hour_bars)
                     
                     current_hour += 1
+                    
+            if (period == "1m" and len(bars) > 0):
+                current_hour = 0
+                
+                for bar in bars:
+                    bar_time = datetime.fromisoformat(bar['T'])       
+
+                    min_bars = {}
+                    min_bars['Date'] = bar['T']
+                    min_bars['Open'] = bar['O']
+                    min_bars['High'] = bar['H']
+                    min_bars['Low'] = bar['L']
+                    min_bars['Close'] = bar['C']
+                    min_bars['Volume'] = bar['V']
+                    all_bars.append(min_bars)
+
+                  
         else:
             bars = []
 
@@ -137,7 +154,9 @@ def load_stock_data_from_redis(asset: str, period: str = "1h") -> pd.DataFrame:
         case "1d":
             df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
         case "1h":
-            df['Date'] = df['Date'].dt.strftime('%Y-%m-%d %H:%M:%S')
+            df['Date'] = df['Date'].dt.strftime('%Y-%m-%d %H:%M')
+        case "1m":
+            df['Date'] = df['Date'].dt.strftime('%Y-%m-%d %H:%M')
         case _:
             pass
     

@@ -1,10 +1,6 @@
 import pandas as pd
-
 import talib as ta
-
 from app.domain import *
-
-from app.domain.models.strategies.atr_model import AtrModel
 
 class AtrIndicator(BaseIndicator):
     """Average True Range (ATR) Indicator"""
