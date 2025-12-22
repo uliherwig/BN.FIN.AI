@@ -147,23 +147,24 @@ def load_stock_data_from_redis(asset: str, period: str = "1h") -> pd.DataFrame:
             
     df['Date'] = pd.to_datetime(df['Date'])
 
-    df['DT'] = df['Date']
+
     
     # Replace period formatting with match block
     match period:
-        case "1d":
-            df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+        case "1d":         
+            df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d')
+            df['DT'] = df['Date']
+            df.set_index('Date', inplace=True)
         case "1h":
             df['Date'] = df['Date'].dt.strftime('%Y-%m-%d %H:%M')
         case "1m":
             df['Date'] = df['Date'].dt.strftime('%Y-%m-%d %H:%M')
         case _:
             pass
+ 
     
-    df.set_index('Date', inplace=True)
+    print(f"DataTypes {df.dtypes}")
     
     print(f"Loaded {len(df)} rows of {period} data for {asset} from Redis")   
-
- 
 
     return df

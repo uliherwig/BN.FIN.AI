@@ -4,6 +4,10 @@ import lightgbm as lgb
 from sklearn.metrics import accuracy_score, precision_score, recall_score, mean_absolute_error, r2_score
 import os
 import joblib
+import redis
+import pickle
+from app.infrastructure.redis_service import RedisService, get_redis_service
+
 
 class LGBModelFactory:
     
@@ -54,44 +58,53 @@ class LGBModelFactory:
                
             )
         else:
-            raise ValueError(f"Unknown model type: {model_type}")
-        
-    @staticmethod
-    def save_lgb_model(model, asset, features, scaler=None) -> None:
-        os.makedirs('ai_models', exist_ok=True)
-        day = pd.Timestamp.now().strftime("%Y%m%d")
-        model_path = f'ai_models/lgb_{asset}_{day}.pkl'
-        joblib.dump(model, model_path)
-        print(f"✅ Model saved to {model_path}")
-        if scaler is not None:
-            scaler_path = f'ai_models/lgb_{asset}_{day}_scaler.pkl'
-            joblib.dump(scaler, scaler_path)
-            print(f"✅ Scaler saved to {scaler_path}")
-        features_path = f'ai_models/lgb_{asset}_{day}_features.pkl'   
-        joblib.dump(features, features_path)
-        print(f"✅ Features saved to {features_path}")
+            raise ValueError(f"Unknown model type: {model_type}")       
+
 
     @staticmethod
-    def load_lgb_model(asset: str, day: str):
+    def save_lgb_model(model, asset, period, features, scaler=None) -> None:
+        """
+        Save model, features, and scaler to Redis using asset and period in the key.
+        """
+        redis_service = get_redis_service()
+
+        base_key = f"lgb:{asset}:{period}"
+        # Save model
+        
+        redis_service.set_value(f"{base_key}:model", pickle.dumps(model))
+        print(f"✅ Model saved to Redis key {base_key}:model")
+        # Save features
+        redis_service.set_value(f"{base_key}:features", pickle.dumps(features))
+        print(f"✅ Features saved to Redis key {base_key}:features")
+        # Save scaler if present
+        if scaler is not None:
+            redis_service.set_value(f"{base_key}:scaler", pickle.dumps(scaler))
+            print(f"✅ Scaler saved to Redis key {base_key}:scaler")
+
+    @staticmethod
+    def load_lgb_model(asset: str, period: str):
+        """
+        Load model, features, and scaler from Redis using asset and period in the key.
+        """
+        redis_service = get_redis_service() 
+        base_key = f"lgb:{asset}:{period}"
         try:
-            if day is None:
-                day = pd.Timestamp.now().strftime("%Y%m%d")
-            model_path = f'ai_models/lgb_{asset}_{day}.pkl'
-            features_path = f'ai_models/lgb_{asset}_{day}_features.pkl'
-            scaler_path = f'ai_models/lgb_{asset}_{day}_scaler.pkl'
-            model = joblib.load(model_path)
-            print(f"✅ Model loaded from {model_path}")
-            features = joblib.load(features_path)
-            print(f"✅ Features loaded: {features}")
-            if os.path.exists(scaler_path):
-                scaler = joblib.load(scaler_path)
-                print(f"✅ Scaler loaded from {scaler_path}")
+            model_bytes = redis_service.get_value(f"{base_key}:model")
+            features_bytes = redis_service.get_value(f"{base_key}:features")
+            scaler_bytes = redis_service.get_value(f"{base_key}:scaler")
+            if model_bytes is None or features_bytes is None:
+                print(f"❌ Model or features not found in Redis for {base_key}")
+                return False
+            model = pickle.loads(model_bytes)
+            print(f"✅ Model loaded from Redis key {base_key}:model")
+            features = pickle.loads(features_bytes)
+            print(f"✅ Features loaded from Redis key {base_key}:features")
+            if scaler_bytes is not None:
+                scaler = pickle.loads(scaler_bytes)
+                print(f"✅ Scaler loaded from Redis key {base_key}:scaler")
                 return model, features, scaler
             else:
                 return model, features
-        except FileNotFoundError as e:
-            print(f"❌ Model not found: {e}")
-            return False
         except Exception as e:
-            print(f"❌ Error loading model: {e}")
+            print(f"❌ Error loading model from Redis: {e}")
             return False

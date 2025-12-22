@@ -1,7 +1,5 @@
 from fastapi import FastAPI
-from celery import Celery
-import threading
-from app.api.v1 import alpaca_controller
+from app.interfaces.api.v1 import alpaca_controller
 
 app = FastAPI(
     title="FinAIService",
@@ -9,11 +7,19 @@ app = FastAPI(
     docs_url="/swagger"
 )
 
-# API-Routen registrieren
+# register routers
 app.include_router(alpaca_controller.router, prefix="/api/v1")
 
-# Celery im selben Prozess (nur für Entwicklung!)
-celery = Celery('tasks', broker='redis://redis:6379/0')
-celery.conf.task_always_eager = False  # Tasks asynchron ausführen
+# include a redis subscription as an example
+from app.infrastructure.redis_service import get_redis_service  
+redis_service = get_redis_service()
+def message_handler(message):
+    print(f"Received message: {message['data']}")
+
+redis_service.subscribe("my_channel", message_handler)
+
+
+
+
 
 

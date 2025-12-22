@@ -3,12 +3,32 @@ import json
 import os
 from typing import List, Dict, Any
 from functools import lru_cache
+from threading import Thread
 
 class RedisService:
     
-    def __init__(self, host: str = os.getenv("REDIS_HOST", "localhost"), port: int = int(os.getenv("REDIS_PORT", 6379)), db: int = 0):        
+    def __init__(self, 
+                 host: str = os.getenv("REDIS_HOST", "localhost"), 
+                 port: int = int(os.getenv("REDIS_PORT", 6379)), 
+                 db: int = 0):        
         self.client = redis.Redis(host=host, port=port, db=db)
+        self.pubsub = self.client.pubsub()
+
         
+    def publish(self, channel: str, message: str):
+        """Publish a message to a Redis channel."""
+        self.client.publish(channel, message)
+
+    def subscribe(self, channel: str, callback):
+        """Subscribe to a Redis channel and run callback in a thread."""
+        def listener():
+            self.pubsub.subscribe(**{channel: callback})
+            self.pubsub.run_in_thread(sleep_time=0.001)
+
+        thread = Thread(target=listener, daemon=True)
+        thread.start()
+        return thread
+
     def set_value(self, key: str, value: str):
         self.client.set(key, value)
 
@@ -32,7 +52,7 @@ class RedisService:
         return [key.decode("utf-8") for key in self.client.keys(pattern)]
     
       
-    
+# Dependency Injection for FastAPI 
 @lru_cache
 def get_redis_service() -> RedisService:
     return RedisService()

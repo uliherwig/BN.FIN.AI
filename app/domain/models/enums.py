@@ -16,6 +16,9 @@ from enum import Enum
 #     RSI = 12
     
 
+class BrokerEnum(Enum):
+    Yahoo = 0
+    Alpaca = 1
 
 class SideEnum(Enum):
     Buy = 0

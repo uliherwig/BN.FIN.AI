@@ -56,7 +56,7 @@ def optimize_lgb_training(strategy_settings: dict) -> Any:
     optuna_service = OptunaService()
     
     
-    opti = 1
+    opti = 2
     
     
     if(opti == 0):
@@ -79,8 +79,10 @@ def optimize_lgb_training(strategy_settings: dict) -> Any:
     
         return
 
-    best_indicator_types = {'SMA': False, 'EMA': True, 'WMA': True, 'TEMA': True, 'MACD': True,
-                            'RSI': False, 'DONCHIAN': False, 'VOLA': False, 'ATR': True, 'BBANDS': False, 'ROC': True}
+    best_indicator_types = {'SMA': False, 'EMA': True, 'WMA': True, 'TEMA': False, 'MACD': True,
+                            'RSI': True, 'DONCHIAN': False, 'VOLA': True, 'ATR': False, 'BBANDS': False, 'ROC': True}
+    
+
     
     
     selected_indicators = [
@@ -115,6 +117,8 @@ def optimize_lgb_training(strategy_settings: dict) -> Any:
     if(opti==2):
         best_indicator_params = {"EMA_short": 18, "EMA_long": 199, "WMA_short": 45, "WMA_long": 214,
                                  "MACD_fast": 10, "MACD_slow": 34, "MACD_signal": 13, "RSI_period": 8, "VOLA_period": 17}
+        
+        best_indicator_params = {"EMA_short": 47, "EMA_long": 188, "WMA_short": 32, "WMA_long": 234, "MACD_fast": 19, "MACD_slow": 48, "MACD_signal": 18, "RSI_period": 14, "VOLA_period": 15, "ROC_period": 1}
         
         indicator_models = IndicatorFactory.get_indicator_models_by_params(best_indicator_params)
         model_opt = LgbModelOptimizationService(train,optuna_service=optuna_service, indicator_models=indicator_models)

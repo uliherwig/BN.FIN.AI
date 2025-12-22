@@ -24,7 +24,7 @@ class IndicatorParamOptimizationService:
         )
         indicator_models = []
         for prefix, enum, param_ranges in indicator_param_ranges:
-            print(f"Suggesting params for indicator: {prefix} with ranges: {param_ranges} enum: {enum}")
+            # print(f"Suggesting params for indicator: {prefix} with ranges: {param_ranges} enum: {enum}")
             params = {k: trial.suggest_int(k, *v) for k, v in param_ranges.items()}
             im = IndicatorModel(strategyType=enum, 
                                 params=json.dumps(params),
@@ -35,35 +35,11 @@ class IndicatorParamOptimizationService:
     
     def objective(self, trial: optuna.Trial):
      
-        indicator_models = self._suggest_indicators(trial)
-
-        settings = {
-            "asset": "SPY",
-            "start_date": "2010-01-01",
-            "end_date": "2024-12-31",
-
-            # fixed thresholds, TP/SL
-            "price_change_threshold": 0.0016,
-            "long_threshold": 0.0003,
-            "short_threshold": 0.0002,
-            "tp": 0.021,
-            "sl": 0.012,
-        }
-
-        # fixed model params (safe defaults)
-        model_params = {
-            "model_type": "regression",
-            "learning_rate": 0.05,
-            "num_leaves": 31,
-            "max_depth": 4,
-            "subsample": 0.9,
-            "colsample_bytree": 0.9,
-            "n_estimators": 100,
-        } 
+        indicator_models = self._suggest_indicators(trial)  
         
         result = self.train_service.get_train_results_by_test_settings(
-            settings=settings,
-            model_params=model_params,
+            settings=DOMAIN_CONFIG["DEFAULT_EXEC_SETTINGS"],
+            model_params=DOMAIN_CONFIG["DEFAULT_MODEL_PARAMS"],
             indicators=indicator_models
         )
 

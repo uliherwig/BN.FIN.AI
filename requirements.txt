@@ -11,15 +11,16 @@ celery
 firebase_admin
 eventlet
 pandas
-tensorflow
+# tensorflow
 numpy
 scikit-learn
 requests
 lightgbm
-xgboost
+# xgboost
 scipy
 yfinance
 Ta-lib
 optuna
 plotly
+matplotlib
 

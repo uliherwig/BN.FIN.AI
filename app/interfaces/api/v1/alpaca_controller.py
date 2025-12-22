@@ -1,0 +1,191 @@
+from datetime import datetime
+import pandas as pd
+import json
+from fastapi import APIRouter, BackgroundTasks, Depends
+from app.domain.ai_trader import AITrader
+from app.domain.services.test.alpaca_test_service import AlpacaTestService
+from app.domain.models.strategy_settings_model import StrategySettingsModel
+from app.domain.services.strategy_test_service import plot_strategy
+from app.infrastructure.yahoo_service import YahooService
+from app.domain.strategy_manager import StrategyManager
+from app.infrastructure import alpaca_service
+from app.infrastructure.alpaca_service import read_quotes
+from app.infrastructure.redis_service import RedisService, get_redis_service
+
+
+
+
+from typing import Any
+
+from app.domain.services.strategy_service import *
+from app.domain.services.train.lgb_train_service import LgbTrainService
+
+router = APIRouter()
+
+@router.get("/yahoo-data-download/{ticker}/{start_date}/{end_date}/{interval}")
+async def download_yahoo_data(ticker: str, start_date: datetime, end_date: datetime, interval: str = '1d'):
+    YahooService.download_stock_data(ticker, start_date, end_date, interval)
+    return {"message": "Yahoo data download started"}
+
+@router.get("/read-quotes/{asset}")
+async def read_quotes_endpoint(asset: str) -> Any:
+    print(f"Reading quotes for asset: {asset}")
+    quotes = read_quotes(asset)
+    return {"asset": asset, "quotes": quotes}
+
+@router.post("/indicator-test")
+async def test_strategy_endpoint(strategy_settings_dict: dict, background_tasks: BackgroundTasks):  
+    """
+    Expected JSON format:
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "strategy_type": "BREAKOUT",
+      "asset": "SPY",
+      "quantity": 1,
+      "take_profit_pct": 0.003,
+      "stop_loss_pct": 0.002,
+      "close_positions_eod": "True",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31",
+      "strategy_params": "{\"Breakout\": 60}"
+    }
+    """
+    strategy_settings = StrategySettingsModel(**strategy_settings_dict)
+    background_tasks.add_task(test_single_strategy, strategy_settings)
+    return {"status": "test_strategy started"}
+
+
+@router.post("/indicator-optimization")
+async def optimize_strategy_endpoint(strategy_settings_dict: dict, background_tasks: BackgroundTasks):
+    """
+        Expected JSON format:
+        {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "strategy_type": "BREAKOUT",
+        "asset": "SPY",
+        "quantity": 1,
+        "take_profit_pct": 0.003,
+        "stop_loss_pct": 0.002,
+        "close_positions_eod": "True",
+        "start_date": "2024-01-01",
+        "end_date": "2024-03-31",
+        "strategy_params": "{\"Breakout\": 10}"
+        }
+    """
+    strategy_settings = StrategySettingsModel(**strategy_settings_dict)
+
+    background_tasks.add_task(optimize_strategy, strategy_settings)
+    return {"status": "optimize_strategy started"}
+
+
+@router.post("/lgb-training")
+async def lgb_training_endpoint(lgb_train_settings_dict: dict, background_tasks: BackgroundTasks):
+    """
+    Expected JSON format:
+    {
+        "indicators": {"EMA_short": 18, "EMA_long": 199, "WMA_short": 45, "WMA_long": 214, "MACD_fast": 10, "MACD_slow": 34, "MACD_signal": 13, "RSI_period": 8, "VOLA_period": 17, "ROC_period": 1},
+        "lgb_model": {"learning_rate": 0.05, "num_leaves": 100, "max_depth": 6, "subsample": 0.9, "colsample_bytree": 0.58, "n_estimators": 500, "model_type": "regression"},
+        "execution_params": {
+            "broker" : "Alpaca",
+            "trading_period": "1h",            
+            "asset": "SPY",
+            "start_date": "2010-01-01",
+            "end_date": "2025-10-30",
+            "long_threshold": 0.00025, "short_threshold": 0.00041, "tp": 0.043, "sl": 0.005
+        }
+    }
+    """
+    service = LgbTrainService()
+    background_tasks.add_task(service.lgb_training, lgb_train_settings_dict)
+    
+    return {"status": "training started"}
+
+
+@router.post("/lgb-optimization")
+async def lgb_optimization_endpoint(lgb_train_settings_dict: dict, background_tasks: BackgroundTasks):
+    task = optimize_lgb_training.delay(lgb_train_settings_dict)
+    return {"message": "optimize_strategy started", "task_id": task.id}
+
+@router.post("/lgb-testing")
+async def lgb_testing_endpoint(lgb_test_settings_dict: dict, background_tasks: BackgroundTasks):
+    test_service = AlpacaTestService()
+    background_tasks.add_task(
+        test_service.test_lgb_model, lgb_test_settings_dict)
+    return {"status": "testing started"}
+
+
+@router.post("/ai-strategy")
+async def ai_strategy_endpoint(strategy_settings_dict: dict, background_tasks: BackgroundTasks):  
+    """
+    Expected JSON format:
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "strategy_type": "BREAKOUT",
+      "asset": "SPY",
+      "quantity": 1,
+      "take_profit_pct": 0.003,
+      "stop_loss_pct": 0.002,
+      "close_positions_eod": "True",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31",
+      "strategy_params": "{\"Breakout\": 60}"
+    }
+    """
+    strategy_settings = StrategySettingsModel(**strategy_settings_dict)
+    
+    background_tasks.add_task(run_ai_strategy_analysis, strategy_settings)
+    return {"status": "ai_strategy started"}
+
+
+
+
+
+@router.post("/learn-from-yahoo-data")
+async def learn_from_yahoo_data_endpoint(ticker: str,  background_tasks: BackgroundTasks):
+    
+    aiTrader = AITrader(ticker)
+    background_tasks.add_task(aiTrader.learn_from_yahoo_data)
+    return {"status": "started"}
+
+@router.post("/learn-from-alpaca-data")
+async def learn_from_alpaca_data_endpoint(param: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(learn_from_alpaca_data, param)
+    return {"status": "started"}
+
+@router.post("/execute-trading-model")
+async def execute_trading_model_endpoint(param: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(start_live_trading, param)
+    return {"status": "started"}
+
+@router.post("/test_chart")
+async def test_chart_endpoint(param: str, start: str, end: str):
+    start_dt = datetime.fromisoformat(start.replace("Z", "+00:00"))
+    end_dt = datetime.fromisoformat(end.replace("Z", "+00:00"))
+    await plot_strategy(start_dt, end_dt)
+    return {"status": "started"}
+
+@router.get("/display-lgb-feature-importance/{ticker}")
+async def display_lgb_feature_importance_endpoint(ticker: str,  background_tasks: BackgroundTasks):
+
+    aiTrader = AITrader(ticker)
+    background_tasks.add_task(aiTrader.display_lgb_feature_importance)
+    return {"status": "started"}
+
+# check redis get and set
+@router.get("/get/{key}")
+def get_value(key: str, redis_service: RedisService = Depends(get_redis_service)):
+    value = redis_service.get_value(key)
+    return {"key": key, "value": value}
+
+
+@router.get("/set/{key}/{value}")
+def set_key_value(key: str, value: str, redis_service: RedisService = Depends(get_redis_service)):
+    redis_service.set_value(key, value)
+    return {"key": key, "value": value}
+
+
+@router.post("/publish")
+async def publish_message(channel: str, message: str, redis_service: RedisService = Depends(get_redis_service)):
+    redis_service.publish(channel, message)
+    return {"status": "Message published", "channel": channel, "message": message}
+

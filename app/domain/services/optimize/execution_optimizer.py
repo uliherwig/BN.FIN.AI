@@ -14,6 +14,8 @@ class ExecutionOptimizationService:
     def objective(self, trial):
 
         settings = {
+            "broker": "Yahoo",
+          	"trading_period": "1d",
             "asset": "SPY",
             "start_date": "2010-01-01",
             "end_date": "2024-12-31",

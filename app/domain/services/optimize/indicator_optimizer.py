@@ -2,6 +2,7 @@ import json
 import optuna
 from typing import Any, Dict, List, Tuple
 from app.domain import *
+from app.domain.domain_config import DOMAIN_CONFIG
 
 from app.domain.services.train.lgb_train_service import LgbTrainService
 from .optuna_service import OptunaService
@@ -45,31 +46,7 @@ class IndicatorOptimizationService:
         trial.set_user_attr("selected_indicators", selected_indicators_str)
      
         # 
-        indicators = self._suggest_indicators(trial)
-
-        settings = {
-            "asset": "SPY",
-            "start_date": "2010-01-01",
-            "end_date": "2024-12-31",
-
-            # fixed thresholds, TP/SL
-            "price_change_threshold": 0.0016,
-            "long_threshold": 0.05,
-            "short_threshold": 0.001,
-            "tp": 0.02,
-            "sl": 0.01,
-        }
-
-        # fixed model params (safe defaults)
-        model_params = {
-            "model_type": "regression",
-            "learning_rate": 0.05,
-            "num_leaves": 31,
-            "max_depth": 4,
-            "subsample": 0.9,
-            "colsample_bytree": 0.9,
-            "n_estimators": 100,
-        }
+        indicators = self._suggest_indicators(trial)      
         
         # model = lgb.LGBMClassifier(
         #     n_estimators=500,
@@ -85,8 +62,8 @@ class IndicatorOptimizationService:
         # )
 
         result = self.train_service.get_train_results_by_test_settings(
-            settings=settings,
-            model_params=model_params,
+            settings=DOMAIN_CONFIG["DEFAULT_EXEC_SETTINGS"],
+            model_params=DOMAIN_CONFIG["DEFAULT_MODEL_PARAMS"],
             indicators=indicators
         )
 

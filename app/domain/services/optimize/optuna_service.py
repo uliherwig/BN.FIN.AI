@@ -1,4 +1,4 @@
-from config import GLOBAL_CONFIG
+from app.config import GLOBAL_CONFIG
 from app.domain.domain_config import DOMAIN_CONFIG
 
 import optuna

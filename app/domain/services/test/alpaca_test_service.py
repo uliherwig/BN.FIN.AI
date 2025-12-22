@@ -28,12 +28,13 @@ class AlpacaTestService:
         
         df_filename = "csv/spy_alpaca_test.csv"
 
-        indicator_models = IndicatorFactory.get_indicator_models_by_params(
-            settings["indicators"])
-        lgb_model = settings["lgb_model"]
+        indicator_models = IndicatorFactory.get_indicator_models_by_params(settings["indicators"])
+   
         execution_params = settings["execution_params"]
 
-        model_type = lgb_model["model_type"]
+        model_type = "regression"
+        broker = execution_params["broker"]
+        trading_period = execution_params["trading_period"]
         asset = execution_params["asset"]
         start_date = execution_params["start_date"]
         end_date = execution_params["end_date"]
@@ -46,10 +47,14 @@ class AlpacaTestService:
         print("Train LGB Model with settings:")
         print(settings)
         
-        # data = YahooService.load_yahoo_stock_data(asset)
-        # data = data[['DT', 'Open', 'High', 'Low', 'Close', 'Volume']].dropna()
+        match broker:
+            case 'Yahoo':
+                trading_period = '1d'  # Yahoo only supports daily data
+                data = YahooService.load_yahoo_stock_data(asset)
+            case 'Alpaca':
+                data = alpaca_service.load_stock_data_from_redis(
+                    asset, period=trading_period)
 
-        data = alpaca_service.load_stock_data_from_redis(asset, period="1h")
         data = data[['DT', 'Open', 'High', 'Low', 'Close', 'Volume']].dropna()
         
         # Keep only rows where DT < '2020-01-01'
@@ -77,7 +82,7 @@ class AlpacaTestService:
         elif (model_type == 'regression'):
             data['target'] = next_return
         # load model
-        model, features = LGBModelFactory.load_lgb_model(asset, "20251119")
+        model, features = LGBModelFactory.load_lgb_model(asset, trading_period)
 
         print(f"Model: loaded {model}")
         print(f"Features: {features}")
@@ -146,6 +151,18 @@ class AlpacaTestService:
         print(f"Sharpe Ratio: {sharpe_ratio:.5f}")
         print(f"Max Drawdown: {max_drawdown:.5f}")
         print(f"Final Equity: {final_equity:.2f}")
+        if 'DT' in data.columns and 'return_abs' in data.columns:
+            data['year'] = pd.to_datetime(data['DT']).dt.year
+            yearly_profit = data.groupby('year')['return_abs'].sum()
+
+            # sum all entries in position column not equal to 0
+            yearly_trades = data.groupby(
+                'year')['position'].apply(lambda x: (x != 0).sum())
+
+            print("Yearly Profit:")
+            for year, prof in yearly_profit.items():
+                print(
+                    f"  {year}: Profit {prof:.2f} Number of Trades: {yearly_trades.get(year, 0)}")
 
     def backtest(self, data, tp,sl):
         """
@@ -530,11 +547,8 @@ class AlpacaTestService:
 
         df_filename = "csv/spy_df_20251117h.csv"
 
-        indicator_models = IndicatorFactory.get_indicator_models_by_params(settings["indicators"])
-        lgb_model = settings["lgb_model"]
-        execution_params = settings["execution_params"]
-
-        model_type = lgb_model["model_type"]
+        indicator_models = IndicatorFactory.get_indicator_models_by_params(settings["indicators"])    
+        execution_params = settings["execution_params"]    
         asset = execution_params["asset"]
         start_date = execution_params["start_date"]
         end_date = execution_params["end_date"]
@@ -623,6 +637,7 @@ class AlpacaTestService:
         print(f"Sharpe Ratio: {sharpe_ratio:.5f}")
         print(f"Max Drawdown: {max_drawdown:.5f}")
         print(f"Final Equity: {final_equity:.2f}" if final_equity is not None else "Final Equity: N/A")
+
         
     def backtest_alpaca_feed(
         self,

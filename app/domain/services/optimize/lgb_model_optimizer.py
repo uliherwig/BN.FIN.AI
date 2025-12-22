@@ -2,6 +2,7 @@ import optuna
 from typing import Dict, List
 from app.domain.services.train.lgb_train_service import LgbTrainService
 from .optuna_service import OptunaService
+from app.domain.domain_config import DOMAIN_CONFIG
 
 
 class LgbModelOptimizationService:
@@ -31,17 +32,7 @@ class LgbModelOptimizationService:
 
         model_params = self._suggest_model_params(trial)
       
-        settings = {
-            "asset": "SPY",
-            "start_date": "2010-01-01",
-            "end_date": "2024-12-31",
-
-            "price_change_threshold": 0.0016,
-            "long_threshold": 0.0003,
-            "short_threshold": 0.0002,
-            "tp": 0.021,
-            "sl": 0.012,
-        }
+        settings = DOMAIN_CONFIG["DEFAULT_EXEC_SETTINGS"]
 
         result = self.train_service.get_train_results_by_test_settings(
             settings=settings,

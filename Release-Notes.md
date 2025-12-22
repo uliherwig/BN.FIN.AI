@@ -1,5 +1,10 @@
 # BN FIN AI
 
+## Version 2025.12.1
+
+- Celery and RedisService refactored
+- Pub Sub methods added to RedisService
+
 ## Version 2025.11.3
 
 - alpaca test with stored lgb model

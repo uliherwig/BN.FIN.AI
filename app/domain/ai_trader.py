@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import lightgbm as lgb
 from sklearn.metrics import accuracy_score, precision_score, recall_score, mean_absolute_error, r2_score
-import tensorflow as tf
-import keras
 import joblib
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
@@ -532,11 +530,11 @@ class AITrader:
         plt.show()
         return
 
-    def save_model(self, model: keras.Model, scaler: MinMaxScaler) -> None:
+    # def save_model(self, model: keras.Model, scaler: MinMaxScaler) -> None:
         
-        # Save model and scaler
-        model.save('ai_models/yahoo_aapl_model.h5')
-        joblib.dump(scaler, 'ai_models/yahoo_aapl_scaler.pkl')
+    #     # Save model and scaler
+    #     model.save('ai_models/yahoo_aapl_model.h5')
+    #     joblib.dump(scaler, 'ai_models/yahoo_aapl_scaler.pkl')
 
     def get_trading_signal(self, recent_data: pd.DataFrame) -> str:
         """
